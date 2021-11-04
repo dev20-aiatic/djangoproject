@@ -1,0 +1,72 @@
+
+
+/*Login Template*/
+
+body {
+  background: #cfd8dc;
+  background: linear-gradient(to right, #eceff1, #eeeeee);
+}
+
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1rem;
+}
+
+.btn-google {
+  color: #ea4335 !important;
+  transition: all ease .2s;
+}
+
+.btn-github {
+  color: #000000 !important;
+  transition: all ease .2s;
+}
+
+.btn-facebook {
+  color: #3b5998 !important;
+  transition: all ease .2s;
+}
+
+.btn-google:hover {
+    color: #ea4435de !important;
+}
+
+.btn-github:hover {
+    color: #696969 !important;
+}
+
+.btn-facebook:hover {
+    color: #1876f2dc !important;
+}
+
+
+/*Login Template Social Buttons */
+.divider {
+    background-color: rgb(169, 169, 169) !important;
+    margin: 20px 0px;
+}
+
+.line {
+    position: relative;
+    height: 2px;
+    background: rgb(192 192 192);
+    display: flex;
+    justify-content: center;
+}
+
+.line-text {
+    position: absolute;
+    top: -13px;
+    background: #ffffff;
+    border-radius: 100%;
+    padding: 2px 8px;
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    .row-sm-offset-3 div:first-child[class*="col-"] {
+        margin-left: 20%;
+    }
+}
+
