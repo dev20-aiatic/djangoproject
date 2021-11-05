@@ -1,0 +1,126 @@
+
+
+<!DOCTYPE html>
+{% load static %}
+{% load account socialaccount %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil de usuario</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/1dca54b605.js" crossorigin="anonymous"></script>
+</head>
+
+<header>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+        <div class="container-fluid">
+            <a href="#" class="navbar-brand">Practica AIATIC 2021-2</a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <a href="../" class="nav-item nav-link active">Inicio</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Mensajes</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Recibidos</a>
+                            <a href="#" class="dropdown-item">Enviados</a>
+                            <a href="#" class="dropdown-item">Borradores</a>
+                        </div>
+                    </div>
+                </div>
+                <form class="d-flex">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar...">
+            <div class="input-group-append"> <button class="btn btn-primary" type="button"> <i class="fa fa-search fa-sm"></i> </button> </div>
+                    </div>
+                </form>
+                <div class="navbar-nav">
+                  <div class="topbar-divider d-none d-sm-block"></div>
+                <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown no-arrow"> <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="mr-2 d-none d-lg-inline text-gray-600 small">{% user_display user %}</span> <img class="img-profile rounded-circle" src="https://img.icons8.com/bubbles/200/000000/user.png"> </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown"> <a class="dropdown-item" href="#"> <i class="fa fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil </a> <a class="dropdown-item" href="#"> <i class="fa fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Ajustes </a> <a class="dropdown-item" href="#"> <i class="fa fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Registros </a>
+                <div class="dropdown-divider"></div> <a class="dropdown-item" href="{% url 'account_logout' %}" data-toggle="modal" data-target="#logoutModal"> <i class="fa fa-sign-out fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar sesión </a>
+            </div>
+        </li>
+                    </ul>
+            </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<body>
+<main>
+{% user_display user %}
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <div class="col-xl-6 col-md-12">
+                <div class="card user-card-full">
+                    <div class="row m-l-0 m-r-0">
+                        <div class="col-sm-4 bg-c-lite-green user-profile">
+                            <div class="card-block text-center text-white">
+                                <div class="m-b-25"> <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image"> </div>
+                                <h6 class="f-w-600">{% user_display name %}</h6>
+                                <p>Web Designer</p> <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="card-block">
+                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Email</p>
+                                        <h6 class="text-muted f-w-400">rntng@gmail.com</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Phone</p>
+                                        <h6 class="text-muted f-w-400">98979989898</h6>
+                                    </div>
+                                </div>
+                                <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Projects</h6>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Recent</p>
+                                        <h6 class="text-muted f-w-400">Sam Disuja</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p class="m-b-10 f-w-600">Most Viewed</p>
+                                        <h6 class="text-muted f-w-400">Dinoter husainm</h6>
+                                    </div>
+                                </div>
+                                <ul class="social-link list-unstyled m-t-40 m-b-10">
+                                    <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="facebook" data-abc="true"><i class="mdi mdi-facebook feather icon-facebook facebook" aria-hidden="true"></i></a></li>
+                                    <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="twitter" data-abc="true"><i class="mdi mdi-twitter feather icon-twitter twitter" aria-hidden="true"></i></a></li>
+                                    <li><a href="#!" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="instagram" data-abc="true"><i class="mdi mdi-instagram feather icon-instagram instagram" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+<footer class="bg-light">
+<div class="bottom section-padding">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<div class="copyright">
+							<p>© <span>2021</span> <a href="#" class="transition">Practicas AIATIC</a> Todos los derechos reservados.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</footer>
+</body>
+</html>
