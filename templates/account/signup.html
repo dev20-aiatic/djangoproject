@@ -1,21 +1,53 @@
+
+
+
+
+
+
+
 {% extends "account/base.html" %}
 
+{% load crispy_forms_tags %}
 {% load i18n %}
-
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
+
+{% load static %}
+
 {% block content %}
-<h1>{% trans "Sign Up" %}</h1>
 
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card border-0 shadow rounded-3 my-5">
+                <div class="card-body p-4 p-sm-5">
+                    <img src="{% static 'img/logo.png' %}" style=" display: block; margin-left: auto; margin-right: auto; width: 50%">
+                    <h5 class="card-title text-center mb-5 fw-light fs-5">Crear una cuenta</h5>
+                    <form class="login" method="POST" action="{% url 'account_signup' %}">
+                        {% csrf_token %}
+                         {{ form | crispy }}
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                    {% endif %}
+                        <div class="d-grid">
+                            <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit"> Registrarse
+                            </button>
+                        </div>
+                        <div class="text-center mt-3">
+                        <p>¿Ya tienes una cuenta? <a href="{{ login_url }}">Inicia sesión</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
-</form>
+{% if user.is_authenticated %}
+{% include "account/snippets/already_logged_in.html" %}
+{% endif %}
 
 {% endblock %}
+
+
+

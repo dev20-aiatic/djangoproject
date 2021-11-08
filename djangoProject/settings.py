@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-f)@$l6zl8ayhqbd32x9fxu065p%@50s1iwk+9u65q@f-c6&+n^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['aiatic-django.herokuapp.com', '127.0.0.1', 'localhost']
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'Practica_AIATIC',
+    'crispy_forms',
     
     # django all-auth
     'allauth',
@@ -53,29 +54,31 @@ SITE_ID = 2
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
-ACCOUNT_SESSION_REMEMBER = True
+# ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
-
 LOGIN_REDIRECT_URL = '/app'
 LOGOUT_REDIRECT_URL = '/login'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
             'client_id': '113761320899-1l4ufo411639sc4r6ff3te28l71kj5lb.apps.googleusercontent.com',
-            'secret': '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',
+            'secret': '**************',
             'key': ''
         }
     },
     'facebook': {
         'APP': {
             'client_id': '931363921064294',
-            'secret': '4ad487db45441212792586c5715f799a',
+            'secret': '**************',
             'key': ''
         }
-    }
+    },
+
 }
 
 
