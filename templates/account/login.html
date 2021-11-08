@@ -4,78 +4,83 @@
 {% load i18n %}
 {% load account socialaccount %}
 
+{% block head_title %}Iniciar sesión{% endblock %}
 {% load static %}
 
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <div class="card border-0 shadow rounded-3 my-5">
-                <div class="card-body p-4 p-sm-5">
-                    <img src="{% static 'img/logo.png' %}" style=" display: block; margin-left: auto; margin-right: auto; width: 50%">
-                    <h5 class="card-title text-center mb-5 fw-light fs-5">Iniciar sesión</h5>
-                    <form class="login" method="POST" action="{% url 'account_login' %}">
-                        {% csrf_token %}
-                         {{ form | crispy }}
-                    {% if redirect_field_value %}
-                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                    {% endif %}
-                        <div class="d-grid">
-                            <a class="button secondaryAction" href="{% url 'account_reset_password' %}"> ¿Olvidaste tu
-                                contraseña? </a>
-                            <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit"> Iniciar
-                                sesión
-                            </button>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="card border-0 shadow rounded-3 my-5">
+                    <div class="login-wrap p-4 b-md-5">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                             <img src="{% static 'img/logo.png' %}" style=" width: 40%">
                         </div>
-                        <div class="divider">
-                            <div class="line">
-                                <span class="line-text">O</span>
-                            </div>
-                        </div>
-                        <!-- Social Buttons -->
-                        <div class="row row-sm-offset-3 socialButtons">
-                            <div class="col-xs-2 col-sm-2">
-                                <a href="{% provider_login_url 'google' %}"
-                                   class="btn btn-lg btn-block btn-google" data-toggle="tooltip"
-                                   data-placement="top" title="Logueo con Google">
-                                    <i class="fab fa-google fa-2x"></i>
-                                    <span class="hidden-xs"></span>
-                                </a>
+                        <h3 class="text-center mb-4">Iniciar sesión</h3>
+                        <form class="login" method="POST" action="{% url 'account_login' %}">
+                            <div class="form-group">
+                                {% csrf_token %}
+                                {{ form | crispy }}
+                                {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                                {% endif %}
                             </div>
 
-                            <div class="col-xs-2 col-sm-2">
-                                <a href="{% provider_login_url 'github' %}"
-                                   class="btn btn-lg btn-block btn-github" data-toggle="tooltip"
-                                   data-placement="top" title="Logueo con Github">
-                                    <i class="fa fa-github fa-2x"></i>
-                                    <span class="hidden-xs"></span>
-                                </a>
+                            <div class="d-grid">
+                                <a class="button secondaryAction" href="{% url 'account_reset_password' %}"> ¿Olvidaste
+                                    tu
+                                    contraseña? </a>
+                                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit"> Iniciar
+                                    sesión
+                                </button>
                             </div>
-
-                            <div class="col-xs-2 col-sm-2">
-                                <a href="{% provider_login_url 'facebook' %}"
-                                   class="btn btn-lg btn-block btn-facebook" data-toggle="tooltip"
-                                   data-placement="top" title="Logueo con Facebook">
-                                    <i class="fab fa-facebook fa-2x"></i>
-                                    <span class="hidden-xs"></span>
-                                </a>
+                            <div class="divider">
+                                <div class="line">
+                                    <span class="line-text">O</span>
+                                </div>
                             </div>
-
-                            <div class="text-center mt-3">
-                                ¿Aún no tienes cuenta? <a href="{{ signup_url }}">Regístrate aquí</a>
+                            <!-- Social Buttons -->
+                            <div class="d-flex">
+                                <div class="w-100">
+                                    <p class="social-media d-flex justify-content-center">
+                                        <a href="{% provider_login_url 'google' %}"
+                                           class="btn btn-lg btn-block btn-google" data-toggle="tooltip"
+                                           data-placement="top" title="Logueo con Google"><i
+                                                class="fab fa-google fa-2x"></i><span class="hidden-xs"></span> </a>
+                                        <a href="{% provider_login_url 'github' %}"
+                                           class="btn btn-lg btn-block btn-github" data-toggle="tooltip"
+                                           data-placement="top" title="Logueo con Github"><i
+                                                class="fa fa-github fa-2x"></i><span class="hidden-xs"></span></a>
+                                        <a href="{% provider_login_url 'facebook' %}"
+                                           class="btn btn-lg btn-block btn-facebook" data-toggle="tooltip"
+                                           data-placement="top" title="Logueo con Facebook"><i
+                                                class="fab fa-facebook fa-2x"></i><span class="hidden-xs"></span></a>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    <div class="row justify-content-center">
+                        <div class=" text-center mb-4">
+                        ¿Aún no tienes cuenta? <a href="{{ signup_url }}">Regístrate aquí</a>
+                       </div>
+                </div>
+                    </div>
                 </div>
             </div>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
 
-{% if user.is_authenticated %}
-{% include "account/snippets/already_logged_in.html" %}
-{% endif %}
+
+
+
+
+
+    {% if user.is_authenticated %}
+        {% include "account/snippets/already_logged_in.html" %}
+    {% endif %}
 
 {% endblock %}
 
