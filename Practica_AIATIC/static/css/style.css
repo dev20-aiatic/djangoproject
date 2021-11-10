@@ -1,10 +1,18 @@
 
 
-/*Login Template*/
+/*Template*/
 
 body {
   background: #cfd8dc;
+  padding-top: 5%;
+  padding-bottom: 5%;
   background: linear-gradient(to right, #eceff1, #eeeeee);
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    scroll-behavior: smooth;
 }
 
 #rise {
@@ -19,6 +27,36 @@ body {
   height: 70px;
   width: 70px;
 }
+
+.divider {
+    background-color: rgb(169, 169, 169) !important;
+    margin: 20px 0px;
+}
+
+.line {
+    position: relative;
+    height: 2px;
+    background: rgb(192 192 192);
+    display: flex;
+    justify-content: center;
+}
+
+.line-text {
+    position: absolute;
+    top: -13px;
+    background: #ffffff;
+    border-radius: 100%;
+    padding: 2px 8px;
+    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    .row-sm-offset-3 div:first-child[class*="col-"] {
+        margin-left: 20%;
+    }
+}
+
+/*Login Template Social Buttons */
 
 .btn-login {
   font-size: 0.9rem;
@@ -54,36 +92,13 @@ body {
 }
 
 
-/*Login Template Social Buttons */
-.divider {
-    background-color: rgb(169, 169, 169) !important;
-    margin: 20px 0px;
-}
-
-.line {
-    position: relative;
-    height: 2px;
-    background: rgb(192 192 192);
-    display: flex;
-    justify-content: center;
-}
-
-.line-text {
-    position: absolute;
-    top: -13px;
-    background: #ffffff;
-    border-radius: 100%;
-    padding: 2px 8px;
-    font-weight: bold;
-}
-
-@media (min-width: 768px) {
-    .row-sm-offset-3 div:first-child[class*="col-"] {
-        margin-left: 20%;
-    }
-}
-
 /* Navbar */
+
+.navbar {
+    display: block;
+    position: fixed;
+    top: 0;
+}
 
 .dropdown-toggle::after {
     content: none !important
@@ -115,13 +130,14 @@ body {
 
 /* Footer */
 
-
-
 a:hover{
     text-decoration:none;
 }
 .section-padding {
-	padding: 30px 0;
+	padding: 10px 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 .bottom {
     background-color: #0a1c2e;
@@ -145,14 +161,8 @@ a:hover{
     color: #d1caca;
 }
 .bottom .copyright p, .bottom .copyright a:hover{
-    color: #6c6d83;
+    color: #ffffff;
 }
-
-
-
-
-
-
 
 
 
@@ -187,12 +197,12 @@ a:hover{
 }
 
 .bg-c-lite-green {
-    background: -webkit-gradient(linear, left top, right top, from(#f29263), to(#ee5a6f));
-    background: linear-gradient(to right, #ee5a6f, #f29263)
+    background: -webkit-gradient(linear, left top, right top, from(#63ccff), to(#006db3));
+    background: linear-gradient(to right, #006db3, #63ccff)
 }
 
 .user-profile {
-    padding: 20px 0
+    padding: 50px 0
 }
 
 .card-block {
