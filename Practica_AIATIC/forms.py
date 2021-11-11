@@ -13,6 +13,7 @@ class RegistrationForm(forms.ModelForm):
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super().save(commit=False)
+        user.profile_picture = self.cleaned_data.get('profile_picture')
         user.set_password(self.cleaned_data["password"])
         if commit:
             user.save()

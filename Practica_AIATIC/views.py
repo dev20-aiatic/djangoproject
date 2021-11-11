@@ -27,6 +27,9 @@ def debug(request):
 
 
 class RegistrationView(CreateView):
+    # Signup View extended
+
+    # change template's name and path
     template_name = 'account/signup.html'
     form_class = RegistrationForm
 

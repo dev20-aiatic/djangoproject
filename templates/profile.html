@@ -4,7 +4,7 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load static %}
-{% block head_title %}{% trans "Profile" %}{% endblock %}
+{% block head_title %}Perfil{% endblock %}
 
 {% block content %}
 
@@ -16,7 +16,7 @@
                     <div class="row m-l-0 m-r-0">
                         <div class="col-sm-4 bg-c-lite-green user-profile">
                             <div class="card-block text-center text-white">
-                                <div class="m-b-25"> <img src="{{ request.user.profile_picture.url }}" class="img-radius" style="width: 130px; height: 130px" alt="Imagen de perfil"> </div>
+                                <div class="m-b-25"> <img src="{{ request.user.profile_picture.url }}" class="img-radius" style="width: 150px; height: 150px; border-radius: 50%;" alt="Imagen de perfil"> </div>
                                 <h6 class="f-w-600">{{ request.user.first_name }} {{ request.user.last_name }}</h6>
                                 <p>@ {{ request.user.username }}</p> <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                             </div>
@@ -37,10 +37,18 @@
                                 <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Información de cuenta </h6>
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Activa <span class="badge rounded-pill bg-primary">{{ request.user.is_active }}</span></p>
+                                        {% if request.user.is_active %}
+                                        <p class="m-b-10 f-w-600">Estado Cuenta <span class="badge rounded-pill bg-success">Activa</span></p>
+                                        {% else %}
+                                        <p class="m-b-10 f-w-600">Estado Cuenta <span class="badge rounded-pill bg-danger">Inactiva</span></p>
+                                        {% endif %}
                                     </div>
                                     <div class="col-sm-6">
-                                        <p class="m-b-10 f-w-600">Admin <span class="badge rounded-pill bg-primary">{{ request.user.is_admin }}</span></p>
+                                        {% if request.user.is_admin %}
+                                        <p class="m-b-10 f-w-600">Tipo de cuenta <span class="badge rounded-pill bg-success">Admin</span></p>
+                                        {% else %}
+                                        <p class="m-b-10 f-w-600">Tipo de cuenta <span class="badge rounded-pill bg-danger">Usuario</span></p>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="row">

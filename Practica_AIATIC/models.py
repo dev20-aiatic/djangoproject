@@ -7,17 +7,17 @@ from djangoProject import settings
 
 
 def img_uploader(instance, filename):
-    profile_image_name = 'profile_images/userID_{0}/profile.jpg'.format(instance.user.id)
-    full_path = os.path.join(settings.MEDIA_ROOT, profile_image_name)
+    image_name = 'user_images/{0}/profile.jpg'.format(instance.username)
+    full_path = os.path.join(settings.MEDIA_ROOT, image_name)
     if os.path.exists(full_path):
         os.remove(full_path)
-    return profile_image_name
+    return image_name
 
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def create_user(self, email, username, first_name, last_name, id_num, profile_picture=None, password=None):
+    def _create_user(self, email, username, first_name, last_name, id_num, password, **extra_fields):
         if not email:
             raise ValueError('Se requiere correo')
         if not username:
@@ -35,28 +35,29 @@ class UserManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name,
             id_num=id_num,
-            last_login=timezone.now()
+            last_login=timezone.now(),
+            date_joined=timezone.now(),
+            **extra_fields
         )
-        user.profile_picture = profile_picture
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, first_name, last_name, id_num, password, profile_picture=None):
-        user = self.create_user(
-            email,
-            username=username,
-            first_name=first_name,
-            last_name=last_name,
-            id_num=id_num,
-            password=password
-        )
+    def create_user(self, email, username, first_name, last_name, id_num, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_admin', False)
+        return self._create_user(email, username, first_name, last_name, id_num, password, **extra_fields)
 
-        user.profile_picture = profile_picture
-        user.is_staff = True
-        user.is_admin = True
-        user.save(using=self._db)
-        return user
+    def create_superuser(self, email, username, first_name, last_name, id_num, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_admin', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser debe ser personal.')
+        if extra_fields.get('is_admin') is not True:
+            raise ValueError('Superuser debe ser admin.')
+
+        return self._create_user(email, username, first_name, last_name, id_num, password, **extra_fields)
 
 
 class User(AbstractBaseUser):
@@ -67,7 +68,7 @@ class User(AbstractBaseUser):
     id_num = models.CharField(max_length=12, verbose_name='Número de identificación', unique=True)
     date_joined = models.DateTimeField(verbose_name="Fecha de creación", auto_now_add=True)
     last_login = models.DateTimeField(verbose_name="Último logueo", auto_now=True)
-    profile_picture = models.ImageField(verbose_name="Foto", default="user.png", upload_to='profile_images', blank=True)
+    profile_picture = models.ImageField(verbose_name="Foto", default="user.png", upload_to=img_uploader, blank=True)
 
     is_active = models.BooleanField(verbose_name="Activo", default=True)
     is_admin = models.BooleanField(verbose_name="Administrador", default=False)  # a superuser
