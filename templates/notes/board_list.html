@@ -1,0 +1,35 @@
+
+{% extends "notes/base.html" %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load static %}
+{% block head_title %}{% trans "Tableros" %}{% endblock %}
+
+{% block content %}
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <h1> Tableros </h1>
+
+<table>
+    <tr>
+        <th> Tableros</th>
+    </tr>
+
+    {% for board in object_list %}
+    <tr>
+    <td>{{board.name}}</td>
+    </tr>
+    {% empty %}
+        <h3> Sin tableros creados</h3>
+    {% endfor %}
+</table>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

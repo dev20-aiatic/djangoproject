@@ -1,0 +1,25 @@
+{% extends "notes/base.html" %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load static %}
+{% block head_title %}{% trans "Crear Tablero" %}{% endblock %}
+
+{% block content %}
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <h3> Añadir Tablero </h3>
+
+            <form method="POST" action="">
+            {% csrf_token %}
+            <input type="submit" value="Crear">
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

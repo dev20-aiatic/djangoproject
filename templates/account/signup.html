@@ -11,48 +11,49 @@
 
 {% block content %}
 
-
-    <section class="ftco-section">
-        <div class="container">
-            <div class="row justify-content-center">
+ <section class="ftco-section">
+        <div class="row justify-content-center">
             <div class="col-md-7 col-lg-5">
                 <div class="card border-0 shadow rounded-3 my-5">
-                    <div class="login-wrap p-4 b-md-5">
+                    <div class="card-body">
                         <div class="icon d-flex align-items-center justify-content-center">
-                             <img src="{% static 'img/logo.png' %}" style=" width: 40%">
+                            <img src="{% static 'img/logo.png' %}" style=" width: 30%">
                         </div>
-                        <h3 class="text-center mb-4">Crear cuenta</h3>
-                    <div class="form-group">
+                        <h3 class="text-center mb-4">Iniciar sesión</h3>
                         <form class="login" method="POST" action="{% url 'account_signup' %}">
-                        {% csrf_token %}
-                         {{ form | crispy }}
-                    {% if redirect_field_value %}
-                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                    {% endif %}
-                         </div>
-                        <div class="d-grid">
-                            <br>
-                            <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit"> Registrarse
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                                    <div class="row justify-content-center">
-                        <div class=" text-center mb-4">
+                            <div class="form-group">
+                                {% csrf_token %}
+                                {{ form | crispy }}
+                                {% if redirect_field_value %}
+                                    <input type="hidden" name="{{ redirect_field_name }}"
+                                           value="{{ redirect_field_value }}"/>
+                                {% endif %}
+                            </div>
+                        <br>
+                            <div class="d-grid">
+                                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit"> Registrarse
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-center">
+                        <div class=" text-center mb-2">
                         ¿Ya tienes una cuenta? <a href="{{ login_url }}">Inicia sesión</a>
                        </div>
                     </div>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </section>
 
-{% if user.is_authenticated %}
-{% include "account/snippets/already_logged_in.html" %}
-{% endif %}
+    {% if user.is_authenticated %}
+        {% include "account/snippets/already_logged_in.html" %}
+    {% endif %}
 
 {% endblock %}
+
 
 
 

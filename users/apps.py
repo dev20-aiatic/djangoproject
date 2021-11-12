@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class PracticaAiaticConfig(AppConfig):
+class UsersConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Practica_AIATIC'
+    name = 'users'

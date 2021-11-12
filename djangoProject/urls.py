@@ -8,7 +8,8 @@ from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('app/', include('Practica_AIATIC.urls')),
+    path('app/', include('users.urls')),
+    path('notes/', include('notes.urls')),
     # path('', views.login),
     path('', auth_views.login, name="account_login"),
     path('', include('allauth.urls')),

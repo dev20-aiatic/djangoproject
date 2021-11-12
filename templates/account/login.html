@@ -10,13 +10,12 @@
 {% block content %}
 
     <section class="ftco-section">
-        <div class="container">
-            <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
                 <div class="card border-0 shadow rounded-3 my-5">
-                    <div class="login-wrap p-4 b-md-5">
+                    <div class="card-body">
                         <div class="icon d-flex align-items-center justify-content-center">
-                             <img src="{% static 'img/logo.png' %}" style=" width: 40%">
+                            <img src="{% static 'img/logo.png' %}" style=" width: 30%">
                         </div>
                         <h3 class="text-center mb-4">Iniciar sesión</h3>
                         <form class="login" method="POST" action="{% url 'account_login' %}">
@@ -24,14 +23,11 @@
                                 {% csrf_token %}
                                 {{ form | crispy }}
                                 {% if redirect_field_value %}
-                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                                    <input type="hidden" name="{{ redirect_field_name }}"
+                                           value="{{ redirect_field_value }}"/>
                                 {% endif %}
                             </div>
-
                             <div class="d-grid">
-                                <a class="button secondaryAction" href="{% url 'account_reset_password' %}"> ¿Olvidaste
-                                    tu
-                                    contraseña? </a>
                                 <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit"> Iniciar
                                     sesión
                                 </button>
@@ -44,7 +40,7 @@
                             <!-- Social Buttons -->
                             <div class="d-flex">
                                 <div class="w-100">
-                                    <p class="social-media d-flex justify-content-center">
+                                    <div class="social-media d-flex justify-content-center">
                                         <a href="{% provider_login_url 'google' %}"
                                            class="btn btn-lg btn-block btn-google" data-toggle="tooltip"
                                            data-placement="top" title="Logueo con Google"><i
@@ -57,26 +53,24 @@
                                            class="btn btn-lg btn-block btn-facebook" data-toggle="tooltip"
                                            data-placement="top" title="Logueo con Facebook"><i
                                                 class="fab fa-facebook fa-2x"></i><span class="hidden-xs"></span></a>
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         </form>
-                    <div class="row justify-content-center">
-                        <div class=" text-center mb-4">
-                        ¿Aún no tienes cuenta? <a href="{{ signup_url }}">Regístrate aquí</a>
-                       </div>
-                </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-center">
+                            <div class=" text-center mb-1">
+                                <a href="{{ account_reset_password }}">¿Olvidaste tu contraseña?</a>
+                                <br>
+                                ¿Aún no tienes cuenta? <a href="{{ signup_url }}">Regístrate aquí</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            </div>
         </div>
     </section>
-
-
-
-
-
 
     {% if user.is_authenticated %}
         {% include "account/snippets/already_logged_in.html" %}

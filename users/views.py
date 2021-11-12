@@ -1,11 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.urls import reverse
-from django.views.generic.edit import CreateView, UpdateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from Practica_AIATIC.forms import RegistrationForm
-from .models import User
+
+# Create your views here.
+from users.forms import RegistrationForm
+from users.models import Profile
 
 
 def helloword(request):
@@ -27,9 +30,6 @@ def debug(request):
 
 
 class RegistrationView(CreateView):
-    # Signup View extended
-
-    # change template's name and path
     template_name = 'account/signup.html'
     form_class = RegistrationForm
 
@@ -48,7 +48,7 @@ class RegistrationView(CreateView):
 
 
 class ProfileView(UpdateView):
-    model = User
+    model = Profile
     fields = ['email', 'username', 'first_name', 'last_name', 'id_num', 'profile_picture', 'last_login']
     template_name = 'account/profile.html'
 
