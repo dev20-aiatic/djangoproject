@@ -88,8 +88,8 @@ class Profile(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     class Meta:
-        verbose_name_plural = "Users"
-        verbose_name = "User"
+        verbose_name_plural = "Usuarios"
+        verbose_name = "Usuario"
 
     def get_full_name(self):
         # The user is identified by their email address
@@ -98,3 +98,9 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         # The user is identified by their email address
         return self.username
+
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):
+        return True

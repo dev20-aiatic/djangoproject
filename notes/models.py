@@ -1,4 +1,4 @@
-
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from djangoProject import settings
@@ -7,7 +7,7 @@ from djangoProject import settings
 # Board Model
 
 class Board(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(verbose_name="Nombre", max_length=150)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.PROTECT)
     public = models.BooleanField(default=False)
     private = models.BooleanField(default=True)
@@ -18,15 +18,17 @@ class Board(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "Boards"
+        ordering = ['-updated_at']
+        verbose_name_plural = "Tableros"
+        verbose_name = "Tablero"
 
 
 # Ideas Model
 
 class Ideas(models.Model):
+    board = models.ForeignKey(Board, on_delete=models.PROTECT, related_name="ideas")
     title = models.CharField(max_length=150)
     content = models.CharField(max_length=500)
-    board = models.ForeignKey(Board, on_delete=models.PROTECT)
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -41,6 +43,8 @@ class Ideas(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name_plural = "Ideas"
+        verbose_name = "Ideas"
 
     def save(self, *args, **kwargs):
         return super(Ideas, self).save(*args, **kwargs)

@@ -1,4 +1,4 @@
-{% extends "notes/base.html" %}
+{% extends "account/base.html" %}
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 {% load i18n %}
@@ -12,11 +12,18 @@
         <div class="row container d-flex justify-content-center">
             <h3> Añadir Tablero </h3>
 
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'board-create' %}">
             {% csrf_token %}
+            {{ form | crispy }}
             <input type="submit" value="Crear">
             </form>
-
+            {% if messages %}
+            <div>
+                {% for message in messages %}
+                <p class="alert text-center alert-success" id="message_container" role="alert">{{message}}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
