@@ -11,7 +11,7 @@
 {% block head-meta %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block head_title %}{% endblock %} | Practicas AIATIC</title>
 {% endblock %}
 
@@ -30,20 +30,18 @@
     <header>
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
                 <div class="container-fluid">
-                    <a href="{% url 'Inicio' %}" class="navbar-brand">Practica AIATIC 2021-2</a>
+                    <a href="{% url 'boards' %}" class="navbar-brand">Practica AIATIC 2021-2</a>
                     <button type="button" class="navbar-toggler" data-bs-toggle="collapse"
                             data-bs-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav">
-                            <a href="{% url 'Inicio' %}" class="nav-item nav-link active">Inicio</a>
                             <div class="nav-item dropdown">
                                 <a href="{% url 'boards' %}" class="nav-link active dropdown-toggle" data-bs-toggle="dropdown">Notas</a>
                                 <div class="dropdown-menu">
-                                    <a href="{% url 'boards' %}" class="dropdown-item">Mis tableros</a>
+                                    <a href="{% url 'boards' %}" class="dropdown-item">Tableros</a>
                                     <a href="{% url 'board-create' %}" class="dropdown-item">Crear tablero</a>
-                                    <a href="#" class="dropdown-item">Drafts</a>
                                 </div>
                             </div>
                         </div>
@@ -70,10 +68,10 @@
                                         src="{{ request.user.profile_picture.url }}"
                                          alt="Imagen de perfil"> </a>
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                         aria-labelledby="userDropdown"><a class="dropdown-item" href="{% url 'Perfil' %}"> <i
+                                         aria-labelledby="userDropdown"><a class="dropdown-item" href="{% url 'Perfil' user.username %}"> <i
                                             class="fa fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil </a> <a
-                                            class="dropdown-item" href=""> <i
-                                            class="fa fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Ajustes </a> <a
+                                            class="dropdown-item" href="{% url 'Perfil-Edit' user.username %}"> <i
+                                            class="fa fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Editar Perfil </a> <a
                                             class="dropdown-item" href="#"> <i
                                             class="fa fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Registros </a>
                                         <div class="dropdown-divider"></div>
@@ -92,20 +90,19 @@
 {% endif %}
 
 <!-- Cuerpo o contenido -->
+<div class="container mt-5">
 {% block message %}
     {% if messages %}
-    <div class="container">
-        {% for message in messages %}
-        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-secondary{% endif %} alert-dismissible rounded-0 fade show" role="alert">
-            {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        {% endfor %}
+      {% for message in messages %}
+      <div class="alert  alert_{{ message.tags }} alert-dismissible shadow fade show" role="alert">
+       <button type="button" class="close" data-bs-dismiss="alert"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+       <strong> {{ message | safe }}</strong>
     </div>
+      {% endfor %}
     {% endif %}
 {% endblock %}
+</div>
+
 <div class="container">
     {% block content %}
      <main>
@@ -164,6 +161,13 @@
     <script src="{% static 'css/main.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.13/lib/draggable.bundle.js"></script>
     <script src="https://kit.fontawesome.com/1dca54b605.js" crossorigin="anonymous"></script>
+    <script>
+    window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 5000);
+    </script>
 {% endblock %}
 
 </html>

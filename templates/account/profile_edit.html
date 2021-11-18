@@ -4,21 +4,21 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load static %}
-{% block head_title %}Añadir Idea{% endblock %}
+{% block head_title %}Editar Perfil{% endblock %}
 
 {% block content %}
 
 <div class="page-content page-container" id="page-content">
     <div class="padding">
         <div class="row container d-flex justify-content-center">
-            <h5> Tablero: <cite>{{ board.name }}</cite> - Añadir Idea </h5>
+            <h3> Editar Perfil </h3>
 
-            <form method="POST" action="{% url 'ideas_create' board.id%}">
+            <form method="POST" action="{% url 'Perfil-Edit' user.username %}" enctype='multipart/form-data'>
             {% csrf_token %}
             {{ form | crispy }}
             <br>
-            <a class="btn btn-secondary " href="{% url 'board' board.id %}">Cancelar</a>
-            <button class="btn btn-primary" type="submit"> Añadir </button>
+            <a class="btn btn-secondary " href="{% url 'Perfil' user.username %}">Cancelar</a>
+            <button class="btn btn-primary" type="submit"> Guardar cambios </button>
             </form>
         </div>
     </div>

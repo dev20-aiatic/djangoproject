@@ -15,9 +15,11 @@
             <form method="POST" action="{% url 'board-create' %}">
             {% csrf_token %}
             {{ form | crispy }}
-            <input type="submit" value="Crear">
+            <br>
+            <a class="btn btn-secondary " href="{% url 'boards' %}">Cancelar</a>
+            <button class="btn btn-primary" type="submit"> Crear </button>
             </form>
-            {% if messages %}
+            {% if messages %}s
             <div>
                 {% for message in messages %}
                 <p class="alert text-center alert-success" id="message_container" role="alert">{{message}}</p>

@@ -20,7 +20,7 @@
                             <img src="{% static 'img/logo.png' %}" style=" width: 30%">
                         </div>
                         <h3 class="text-center mb-4">Iniciar sesión</h3>
-                        <form class="login" method="POST" action="{% url 'account_signup' %}">
+                        <form class="login" method="POST" action="{% url 'account_signup' %}" enctype='multipart/form-data'>
                             <div class="form-group">
                                 {% csrf_token %}
                                 {{ form | crispy }}

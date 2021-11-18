@@ -1,7 +1,9 @@
 import os
 
+from PIL import Image
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from djangoProject import settings
 
@@ -68,7 +70,7 @@ class Profile(AbstractBaseUser, PermissionsMixin):
     id_num = models.CharField(max_length=12, verbose_name='Número de identificación', unique=True)
     date_joined = models.DateTimeField(verbose_name="Fecha de creación", auto_now_add=True)
     last_login = models.DateTimeField(verbose_name="Último logueo", auto_now=True)
-    profile_picture = models.ImageField(verbose_name="Foto", default="user.png", upload_to=img_uploader, blank=True)
+    profile_picture = models.ImageField(verbose_name="Foto", default="user.png", upload_to=img_uploader)
 
     is_active = models.BooleanField(verbose_name="Activo",
                                     help_text='Cambia el estado a activa e inactiva de la cuenta', default=True)

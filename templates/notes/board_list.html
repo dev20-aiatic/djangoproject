@@ -7,60 +7,147 @@
 
 {% block content %}
 
-    <div class="container mx-auto mt-4">
-    <div class="d-flex justify-content-between mb-3"> <span><strong> <h5>Tableros</h5></strong></span> <a class="btn btn-primary" href="{% url 'board-create' %}" role="button">Añadir Tablero</a> </div>
-        {% for board in object_list %}
-            <div class="row  main-div">
-                <div class="col category-swap">
-                    <div class="card ">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center p-2 first">
-                                <h5 class="card-title">{{ board.name }} </h5>
-                                <div class="item-action dropdown"><a href="#" data-bs-toggle="dropdown"
-                                                                     class="text-muted" data-abc="true"> <i
-                                        class="fas fa-ellipsis-v"></i></a>
-                                    <div class="dropdown-menu dropdown-menu-right bg-white" role="menu"><a
-                                            class="dropdown-item" href="" data-abc="true">Expandir </a><a
-                                            class="dropdown-item edit" data-abc="true">Editar tablero</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item trash" data-bs-toggle="modal" data-bs-target="#deleteModal">Eliminar tablero</a>
-                                    </div>
+    <div class="container mt-5 mb-5">
+        <div class="d-flex justify-content-between mb-3"><span><strong> <h5>Mis Tableros</h5></strong></span> <a
+                class="btn btn-primary" href="{% url 'board-create' %}" role="button">Añadir Tablero</a></div>
+        <div class="row g-2">
+
+            {% if not my_boards %}
+                <div class="d-flex">
+
+                    <div style="width:25%;float:left">
+                        <img src="https://c.tenor.com/7lRHB7fNXgEAAAAC/super-f-fail.gif"
+                             style="float: right; width: 250px; height: auto">
+                    </div>
+                    <div style="width:70%;float:left;margin-left:50px; margin-top: 20px">
+                        <h6 style="font-weight:bold;font-size:34px;">No has creado ningún tablero</h6>
+                        <div style="font-size:25px;text-align:left;">Crea tu primer tablero, haciendo clic en el botón
+                            'Añadir Tablero' en la parte superior de este panel.
+                        </div>
+
+                    </div>
+                </div>
+            {% endif %}
+            {% for board in my_boards %}
+                <div class="col-md-3">
+                    <div class="card p-2 py-3">
+                        <div class="d-flex justify-content-between align-items-center p-2 first">
+                            <h5 class="card-title">{{ board.name }} </h5>
+                            <div class="item-action dropdown"><a href="#" data-bs-toggle="dropdown"
+                                                                 class="text-muted" data-abc="true"> <i
+                                    class="fas fa-ellipsis-v"></i></a>
+                                <div class="dropdown-menu dropdown-menu-right bg-white" role="menu"><a
+                                        class="dropdown-item edit" data-abc="true"> <i class="fas fa-pen"
+                                                                                       style="color:#FFC107"></i> &nbsp;
+                                    Editar tablero</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item trash" href="{% url 'board-delete' board.id %}"> <i
+                                            class="far fa-trash-alt" style="color:#E53935"></i> &nbsp; Eliminar
+                                        tablero</a>
                                 </div>
                             </div>
-                            <span>Creado: {{ board.user }} </span>
                         </div>
-                        <div class="card-body">
-                            <ul class="todo-list" data-widget="todo-list">
-
-                            </ul>
+                        <div class="d-flex">
+                            <div class="w-30">
+                                <img src="{{ board.user.profile_picture.url }}" class="img-radius"
+                                     style="width: 35px; height: 35px; margin: 5px; border-radius: 50%;"
+                                     alt="Imagen de perfil"> </a>
+                            </div>
+                            <div class="w-70">
+                                <p class="mb-0">
+                                    <small>{{ board.user.first_name }}</small>
+                                    <small>{{ board.user.last_name }}</small>
+                                </p>
+                                {% if board.older_than_a_min %}
+                                    <small>hace menos de un minuto</small>
+                                {% else %}
+                                    <small> hace {{ board.timereference | timeuntil:board.updated_at }}  </small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="mt-4 view"><a href="{% url 'board' board.id %}" class="btn btn-primary">Ver</a>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
     </div>
 
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" role="dialog"  aria-hidden="true">
-            <div class="modal-dialog modal-md  modal-dialog-centered">
-                <div class="modal-content rounded-0">
-                    <form method="post" action="">
-                        {% csrf_token %}
-                        {% if redirect_field_value %}
-                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                        {% endif %}
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Eliminar tablero</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="container mt-5 mb-5">
+        <div class="d-flex justify-content-between mb-3"><span><strong> <h5>Tableros Públicos</h5></strong></span>
+            {% comment %}<a class="btn btn-primary" href="{% url 'board-create' %}" role="button">Añadir Tablero</a>{% endcomment %}
+        </div>
+        <div class="row g-2">
+            {% for board in public_list %}
+                <div class="col-md-3">
+                    <div class="card p-2 py-3">
+                        <div class="d-flex justify-content-between align-items-center p-2 first">
+                            <h5 class="card-title">{{ board.name }} </h5>
+                            <div class="item-action dropdown"><a href="#" data-bs-toggle="dropdown"
+                                                                 class="text-muted" data-abc="true"> <i
+                                    class="fas fa-ellipsis-v"></i></a>
+                                <div class="dropdown-menu dropdown-menu-right bg-white shadow animated--grow-in"
+                                     role="menu"><a
+                                        class="dropdown-item edit" data-abc="true">
+                                    <i class="fas fa-pen" style="color:#FFC107"></i> &nbsp; Editar tablero </a></a>
+                                    <div class="dropdown-divider"></div>
+                                    {#                                    <a class="dropdown-item trash" data-bs-toggle="modal" data-bs-target="#deleteModal">#}
+                                    {#                                        <i class="far fa-trash-alt" style="color:#E53935"></i> &nbsp; Eliminar tablero#}
+                                    {#                                    </a>#}
+                                    <a class="dropdown-item trash" href="{% url 'board-delete' board.id %}"> <i
+                                            class="far fa-trash-alt" style="color:#E53935"></i> &nbsp;Eliminar
+                                        tablero</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <p>Está seguro de eliminar el tablero {{ board.name }}</p>
+                        <div class="d-flex">
+                            <div class="w-30">
+                                <img src="{{ board.user.profile_picture.url }}" class="img-radius"
+                                     style="width: 35px; height: 35px; margin: 5px; border-radius: 50%;"
+                                     alt="Imagen de perfil"> </a>
+                            </div>
+                            <div class="w-70">
+                                <p class="mb-0">
+                                    <small>{{ board.user.first_name }}</small>
+                                    <small>{{ board.user.last_name }}</small>
+                                </p>
+                                {% if board.older_than_a_min %}
+                                    <small>hace menos de un minuto</small>
+                                {% else %}
+                                    <small> hace {{ board.timereference | timeuntil:board.updated_at }}  </small>
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Eliminar</button>
+                        <div class="mt-4 view"><a href="{% url 'board' board.id %}" class="btn btn-primary">Ver</a>
                         </div>
-                    </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog modal-md  modal-dialog-centered">
+            <div class="modal-content rounded-0">
+                {% csrf_token %}
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModallLabel">Eliminar tablero</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Está seguro de eliminar el tablero {{ board.name }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-sm btn-danger" href="">Delete</a>
                 </div>
             </div>
         </div>
+    </div>
 {% endblock %}

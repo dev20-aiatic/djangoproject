@@ -19,12 +19,10 @@ class RegistrationForm(forms.ModelForm):
         return user
 
 
-class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField()
-
+class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['email', 'username', 'first_name', 'last_name', 'id_num', 'profile_picture', 'password']
+        fields = ['email', 'username', 'first_name', 'last_name', 'id_num', 'profile_picture']
 
 
 # Admin Panel Form
