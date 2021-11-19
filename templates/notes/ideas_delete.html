@@ -1,28 +1,25 @@
 {% extends "account/base.html" %}
+{% load crispy_forms_filters %}
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load static %}
-{% block head_title %}Actualizar idea{% endblock %}
+{% block head_title %}Eliminar idea{% endblock %}
 
 {% block content %}
 
 <div class="page-content page-container" id="page-content">
     <div class="padding">
         <div class="row container d-flex justify-content-center">
-        <div class="card">
-    <div class="card-header">
-            <h5 class="card-title"> Actualizar Idea {{idea.name}} </h5>
-    </div>
-        <div class="card-body">
-            <form method="POST" action="{% url 'ideas-update' board.id idea.id %}">
+            <h3> Eliminar idea: {{ idea.title }}</h3>
+
+            <form method="POST" action="{% url 'ideas-delete' board.id idea.id %}">
             {% csrf_token %}
             {{ form | crispy }}
+            <br>
             <a class="btn btn-secondary " href="{% url 'board' board.id %}">Cancelar</a>
-            <button class="btn btn-primary" type="submit"> Actualizar </button>
+            <button class="btn btn-primary" type="submit"> Eliminar </button>
             </form>
-        </div>
-        </div>
         </div>
     </div>
 </div>

@@ -3,29 +3,24 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load static %}
-{% block head_title %}{% trans "Crear Tablero" %}{% endblock %}
+{% block head_title %}Crear Tablero{% endblock %}
 
 {% block content %}
 
 <div class="page-content page-container" id="page-content">
     <div class="padding">
         <div class="row container d-flex justify-content-center">
-            <h3> Añadir Tablero </h3>
-
-            <form method="POST" action="{% url 'board-create' %}">
+        <div class="card">
+    <h5> Añadir Tablero </h5>
+        <div class="card-body">
+            <form method="POST" action="{%  url 'board-create' %}">
             {% csrf_token %}
             {{ form | crispy }}
-            <br>
             <a class="btn btn-secondary " href="{% url 'boards' %}">Cancelar</a>
-            <button class="btn btn-primary" type="submit"> Crear </button>
+            <button class="btn btn-primary" type="submit"> Actualizar </button>
             </form>
-            {% if messages %}s
-            <div>
-                {% for message in messages %}
-                <p class="alert text-center alert-success" id="message_container" role="alert">{{message}}</p>
-                {% endfor %}
-            </div>
-            {% endif %}
+        </div>
+        </div>
         </div>
     </div>
 </div>

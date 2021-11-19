@@ -1,4 +1,5 @@
 {% extends "account/base.html" %}
+{% load crispy_forms_filters %}
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 {% load i18n %}
@@ -8,8 +9,8 @@
 {% block content %}
 
     <div class="container mt-5 mb-5">
-        <div class="d-flex justify-content-between mb-3"><span><strong> <h5>Mis Tableros</h5></strong></span> <a
-                class="btn btn-primary" href="{% url 'board-create' %}" role="button">Añadir Tablero</a></div>
+        <div class="d-flex justify-content-between mb-3"><h4><strong> Mis Tableros</strong></h4> <a
+                class="btn btn-primary" href="{% url 'board-create' %}"  role="button">Añadir Tablero</a></div>
         <div class="row g-2">
 
             {% if not my_boards %}
@@ -17,7 +18,7 @@
 
                     <div style="width:25%;float:left">
                         <img src="https://c.tenor.com/7lRHB7fNXgEAAAAC/super-f-fail.gif"
-                             style="float: right; width: 250px; height: auto">
+                             style="float: right; width: 250px; height: auto" alt="Not found">
                     </div>
                     <div style="width:70%;float:left;margin-left:50px; margin-top: 20px">
                         <h6 style="font-weight:bold;font-size:34px;">No has creado ningún tablero</h6>
@@ -36,10 +37,10 @@
                             <div class="item-action dropdown"><a href="#" data-bs-toggle="dropdown"
                                                                  class="text-muted" data-abc="true"> <i
                                     class="fas fa-ellipsis-v"></i></a>
-                                <div class="dropdown-menu dropdown-menu-right bg-white" role="menu"><a
-                                        class="dropdown-item edit" data-abc="true"> <i class="fas fa-pen"
-                                                                                       style="color:#FFC107"></i> &nbsp;
-                                    Editar tablero</a>
+                                <div class="dropdown-menu dropdown-menu-right bg-white shadow animated--grow-in"
+                                     role="menu"><a
+                                        class="dropdown-item edit" data-abc="true" href="{% url 'board-update' board.id %}">
+                                    <i class="fas fa-pen" style="color:#FFC107"></i> &nbsp; Editar tablero </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item trash" href="{% url 'board-delete' board.id %}"> <i
                                             class="far fa-trash-alt" style="color:#E53935"></i> &nbsp; Eliminar
@@ -51,7 +52,7 @@
                             <div class="w-30">
                                 <img src="{{ board.user.profile_picture.url }}" class="img-radius"
                                      style="width: 35px; height: 35px; margin: 5px; border-radius: 50%;"
-                                     alt="Imagen de perfil"> </a>
+                                     alt="Imagen de perfil">
                             </div>
                             <div class="w-70">
                                 <p class="mb-0">
@@ -72,10 +73,9 @@
             {% endfor %}
         </div>
     </div>
-    </div>
 
     <div class="container mt-5 mb-5">
-        <div class="d-flex justify-content-between mb-3"><span><strong> <h5>Tableros Públicos</h5></strong></span>
+        <div class="d-flex justify-content-between mb-3"><h4><strong> Tableros Públicos</strong></h4>
             {% comment %}<a class="btn btn-primary" href="{% url 'board-create' %}" role="button">Añadir Tablero</a>{% endcomment %}
         </div>
         <div class="row g-2">
@@ -89,8 +89,8 @@
                                     class="fas fa-ellipsis-v"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right bg-white shadow animated--grow-in"
                                      role="menu"><a
-                                        class="dropdown-item edit" data-abc="true">
-                                    <i class="fas fa-pen" style="color:#FFC107"></i> &nbsp; Editar tablero </a></a>
+                                        class="dropdown-item edit" data-abc="true" href="{% url 'board-update' board.id %}">
+                                    <i class="fas fa-pen" style="color:#FFC107"></i> &nbsp; Editar tablero </a>
                                     <div class="dropdown-divider"></div>
                                     {#                                    <a class="dropdown-item trash" data-bs-toggle="modal" data-bs-target="#deleteModal">#}
                                     {#                                        <i class="far fa-trash-alt" style="color:#E53935"></i> &nbsp; Eliminar tablero#}
@@ -105,7 +105,7 @@
                             <div class="w-30">
                                 <img src="{{ board.user.profile_picture.url }}" class="img-radius"
                                      style="width: 35px; height: 35px; margin: 5px; border-radius: 50%;"
-                                     alt="Imagen de perfil"> </a>
+                                     alt="Imagen de perfil">
                             </div>
                             <div class="w-70">
                                 <p class="mb-0">
@@ -127,7 +127,7 @@
         </div>
     </div>
 
-
+{#Delete Board Model#}
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" role="dialog"
          aria-hidden="true">
         <div class="modal-dialog modal-md  modal-dialog-centered">
@@ -146,6 +146,30 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <a class="btn btn-sm btn-danger" href="">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{#Add Board Model#}
+     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="deleteModalLabel" role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog modal-md  modal-dialog-centered">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModallLabel">Añadir tablero</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <form method="POST" action="{% url 'board-create' %}"  role="form">
+                     {% csrf_token %}
+                        {{form.name }}
+
+                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" type="submit"> Crear </button>
                 </div>
             </div>
         </div>

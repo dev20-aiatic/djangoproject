@@ -15,17 +15,17 @@ User = get_user_model()
 
 class Board(models.Model):
     STATUS_CHOICES = (
-        ('o', 'Público'),
-        ('p', 'Privado'),
+        ('publico', 'Público'),
+        ('privado', 'Privado'),
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, help_text='ID único para el tablero',
                           max_length=36)
     name = models.CharField(verbose_name="Nombre", max_length=150)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.PROTECT, verbose_name="Usuario")
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='p', blank=True, verbose_name="Estado",
+    status = models.CharField(max_length=7, choices=STATUS_CHOICES, default='privado', blank=True, verbose_name="Estado",
                               help_text='Visibilidad del tablero')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Creación")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Última actualización")
 
     def __str__(self):
         return f'{self.name}'
@@ -43,7 +43,7 @@ class Board(models.Model):
         verbose_name = "Tablero"
 
     def get_absolute_url(self):
-        return reverse('board', kwargs={"username": self.request.user.username}, args=[str(self.id)])
+        return reverse('board', kwargs={"id": self.id})
 
 
 # Ideas Model
@@ -53,20 +53,16 @@ class Ideas(models.Model):
     title = models.CharField(max_length=150, verbose_name="Título")
     content = models.TextField(max_length=500, verbose_name="Contenido")
     user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name="Usuario")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Creación")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Última módificación")
 
     def __str__(self):
         return f'{self.title} ({self.board.name})'
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-updated_at']
         verbose_name_plural = "Ideas"
         verbose_name = "Idea"
 
-    # def save(self, *args, **kwargs):
-    #     return super(Ideas, self).save(*args, **kwargs)
-    #
-    # def get_absolute_url(self):
-    #     return reverse('ideas',
-    #                    args=[self.title])
+    def get_absolute_url(self):
+        return reverse('board', kwargs={"id": self.board_id})

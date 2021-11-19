@@ -101,6 +101,13 @@ class Profile(AbstractBaseUser, PermissionsMixin):
         # The user is identified by their email address
         return self.username
 
+    def last_name_initial(value):
+        """
+        Returns the first character of lastname in lowercase for a given name
+        """
+        last_name = value.split()[-1]  # get the last name from value
+        return last_name[0].lower()  # get the first letter of last name in lower case
+
     def has_perm(self, perm, obj=None):
         return True
 

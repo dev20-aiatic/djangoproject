@@ -6,33 +6,51 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
+from rest_framework import generics, permissions
 
 from users.forms import RegistrationForm, ProfileUpdateForm
 from users.models import Profile
+from users.serializers import ProfileSerializer
 
 User = get_user_model()
 
 
 # Create your views here.
 
-
-def helloword(request):
-    return HttpResponse('<h2>Hola Mundo:v</h2>')
-
-
 @login_required
 def home(request):
     return render(request, 'home.html')
 
 
-@login_required
-def profile(request):
-    return render(request, 'profile.html', context={"user": request.user})
+# RestFramework Views
+
+class RestUsersList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [permissions.AllowAny]
 
 
-def debug(request):
-    return render(request, 'login.html')
+# Custom Auth Views
 
+class RegistrationView(CreateView):
+    template_name = 'account/signup.html'
+    form_class = RegistrationForm
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(RegistrationView, self).get_context_data(**kwargs)
+        context['next'] = self.request.GET.get('next')
+        return context
+
+    def get_success_url(self):
+        next_url = self.request.POST.get('next')
+        success_url = reverse('login')
+        if next_url:
+            success_url += '?next={}'.format(next_url)
+
+        return success_url
+
+
+# Profile Frontend Views
 
 class ProfileDetail(DetailView):
     template_name = 'account/profile.html'
@@ -51,24 +69,6 @@ class ProfileDetail(DetailView):
         # user_id = self.kwargs.get('id')
         # user = get_object_or_404(User,id=user_id)
         return context
-
-
-class RegistrationView(CreateView):
-    template_name = 'account/signup.html'
-    form_class = RegistrationForm
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(RegistrationView, self).get_context_data(**kwargs)
-        context['next'] = self.request.GET.get('next')
-        return context
-
-    def get_success_url(self):
-        next_url = self.request.POST.get('next')
-        success_url = reverse('login')
-        if next_url:
-            success_url += '?next={}'.format(next_url)
-
-        return success_url
 
 
 class ProfileEdit(UpdateView):

@@ -12,7 +12,7 @@
         <div class="row container d-flex justify-content-center">
             <h3> Eliminar tablero: {{ board.name }}</h3>
 
-            <form method="POST" action="{% url 'board-delete' board.id %}">
+            <form method="POST" action="">
             {% csrf_token %}
             {{ form | crispy }}
             <br>

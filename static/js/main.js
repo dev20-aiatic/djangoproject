@@ -1,14 +1,8 @@
 
-//Board's Card Function
+//Alert Messages' FadeOut
 
-//task sortable
-const sortable = new Draggable.Sortable(
-    document.querySelectorAll("ul"),
-    { draggable: "li" }
-);
-
-//cat sortable
-const sortableCat = new Draggable.Sortable(
-    document.querySelectorAll(".main-div"),
-    { draggable: ".category-swap", handle: ".card-header" }
-);
+window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 5000);

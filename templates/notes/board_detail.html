@@ -8,8 +8,8 @@
 {% block content %}
 
     <div class="container mt-5 mb-5">
-        <div class="d-flex justify-content-between mb-3"><span><strong> <h5>Tablero: <strong>{{ board.name }}</strong> </h5></strong></span>
-            <a class="btn btn-primary" href="{% url 'ideas_create' board.id %}" role="button">Añadir Idea</a></div>
+        <div class="d-flex justify-content-between mb-3"><h5>Tablero: <strong>{{ board.name }}</strong> </h5>
+            <a class="btn btn-primary" href="{% url 'ideas-create' board.id %}" role="button">Añadir Idea</a></div>
         </div>
         <div class="row g-2">
             {% if not ideas %}
@@ -25,24 +25,36 @@
             {% endif %}
         {% for idea in ideas  %}
             <div class="col-md-3">
-                    <div class="card p-2 py-3">
+                    <div class="card p-2 py-3" style="border-radius: 12px">
                         <div class="d-flex justify-content-between align-items-center p-2 first">
-                            <h5 class="card-title">{{ idea.title }} </h5>
+                            <div class="d-flex">
+                            <div class="w-15">
+                                <img src="{{ board.user.profile_picture.url }}" class="img-radius"
+                                     style="width: 20px; height: 20px; margin: 5px; border-radius: 50%;"
+                                     alt="Imagen de perfil">
+                            </div>
+                            <div class="w-85" style="margin-top: 2px">
+                                    <strong>{{ idea.user.first_name }}</strong>
+                                    <strong>{{ idea.user.last_name }}</strong>
+                            </div>
+                        </div>
                             <div class="item-action dropdown"><a href="#" data-bs-toggle="dropdown"
                                                                  class="text-muted" data-abc="true"> <i
                                     class="fas fa-ellipsis-v"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right bg-white" role="menu"><a
-                                        class="dropdown-item edit" data-abc="true"> <i class="fas fa-pen"
+                                        class="dropdown-item edit" href="{% url 'ideas-update' board.id idea.id %}"
+                                        data-abc="true" > <i class="fas fa-pen"
                                                                                        style="color:#FFC107"></i> &nbsp;
                                     Editar idea</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item trash" href="{% url 'board-delete' board.id %}"> <i
+                                    <a class="dropdown-item trash" href="{% url 'ideas-delete' board.id idea.id %}"> <i
                                             class="far fa-trash-alt" style="color:#E53935"></i> &nbsp; Eliminar
                                         idea</a>
                                 </div>
                             </div>
                         </div>
                         <div class="centered">
+                             <h5 class="card-title">{{ idea.title }} </h5>
                                 <p class="mb-0">
                                     {{ idea.content }}
                                 </p>

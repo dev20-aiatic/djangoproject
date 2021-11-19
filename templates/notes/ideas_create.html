@@ -13,7 +13,7 @@
         <div class="row container d-flex justify-content-center">
             <h5> Tablero: <cite>{{ board.name }}</cite> - Añadir Idea </h5>
 
-            <form method="POST" action="{% url 'ideas_create' board.id%}">
+            <form method="POST" action="{% url 'ideas-create' board.id%}">
             {% csrf_token %}
             {{ form | crispy }}
             <br>
