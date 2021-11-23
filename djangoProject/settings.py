@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'notes',
+    'website',
 
     # django all-auth
     'allauth',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
 
     # Others
     'crispy_forms',
+    'active_link',
     'bootstrap_modal_forms',
 ]
 
@@ -83,9 +85,9 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
 ACCOUNT_SESSION_REMEMBER = None
-LOGIN_REDIRECT_URL = '/notes'
-LOGIN_URL = '/login/'
-LOGOUT_REDIRECT_URL = '/login'
+LOGIN_URL = '/app/login/'
+LOGIN_REDIRECT_URL = '/app/dashboard'
+LOGOUT_REDIRECT_URL = '/inicio/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Provider specific settings
@@ -137,8 +139,11 @@ EMAIL_FROM = 'noreply@aiatic-django.herokuapp.com'
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated'
     ]
 }
 

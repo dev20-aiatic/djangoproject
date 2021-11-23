@@ -1,0 +1,91 @@
+{% extends "website/base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block head_title %}Servicios{% endblock %}
+
+
+{% block content %}
+  <div class="row">
+            <div class="col-lg-6">
+                <div class="section-title">
+                    <h2>Nuestros Servicios</h2>
+                </div>
+            </div>
+  </div>
+<div class='container-fluid mx-auto mt-5 mb-5 col-12' style="text-align: center">
+    <div class="hd">¿Por qué las personas adquiere nuestro producto?</div>
+    <p><small class="text-muted">Los servicios incluidos con el producto <br /> permiten a nuestros clientes lograr sus objetivos.</small></p>
+    <div class="row" style="justify-content: center">
+        <div class="card col-md-3 col-4">
+            <div class="card-content">
+                <div class="card-body"> <img class="img" src="https://i.imgur.com/S7FJza5.png" />
+                    <div class="shadow"></div>
+                    <div class="card-title"> Sin pago o subscripciones</div>
+                    <div class="card-subtitle">
+                        <p> <small class="text-muted">Este proyecto es y seguirá siendo opensource.</small> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card col-md-3 col-12 ml-4">
+            <div class="card-content">
+                <div class="card-body"> <img class="img" src="https://i.imgur.com/xUWJuHB.png" />
+                    <div class="card-title"> Trabaja sin distracciones </div>
+                    <div class="card-subtitle">
+                        <p> <small class="text-muted"> Nuestra plataforma no admite anuncios publicitarios de ningún tipo. </small> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card col-md-3 col-12 ml-4">
+            <div class="card-content">
+                <div class="card-body"> <img class="img rck" src="https://i.imgur.com/rG3CGn3.png" />
+                    <div class="card-title"> Estámos para servirle </div>
+                    <div class="card-subtitle">
+                        <p> <small class="text-muted">Siempre que lo requieras puedes contactarnos, estamos para ayudarte.</small> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ft">
+        <p class="chk"><small class="text-muted">¿Tienes dudas?</small></p>
+        <a class="btn btn-primary" href="{% url 'contact' %}" role="button">Contáctanos</a>
+    </div>
+</div>
+
+    <div class="container-fluid mx-auto mt-5 mb-5 col-12" style="text-align: center">
+     <div class="hd">Testimonios</div>
+    <div class="row">
+        <div class="col-lg-4 d-flex justify-content-center">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="card-img pt-2 pb-3"> <img src="https://i.pravatar.cc/300?img=38" alt=""> </div>
+                    <div class="name h5">Laura Avedaño</div>
+                    <div class="testimonial"> Ahora estoy al tanto de lo que necesito, gracias a la plataforma. </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 d-flex justify-content-center">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="card-img pt-2 pb-3"> <img src="https://i.pravatar.cc/300?img=32" alt=""> </div>
+                    <div class="name h5">Sofia Robledo</div>
+                    <div class="testimonial"> Hago uso de los servicios dispuestos y ahora tengo más tiempo para mí </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 d-flex justify-content-center">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="card-img pt-2 pb-3"> <img src="https://i.pravatar.cc/300?img=59" /> </div>
+                    <div class="name h5">Pedro Mora</div>
+                    <div class="testimonial"> LLevo una semana haciendo uso de esta herramienta y me ha sido de mucha ayuda </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

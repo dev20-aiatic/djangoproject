@@ -5,6 +5,8 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from rest_framework import generics, permissions
+from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from .forms import NewBoard, NewIdea
 from .models import Ideas, Board
@@ -14,20 +16,30 @@ from .serializers import BoardsSerializer, IdeasSerializer, IdeaCreateSerializer
 
 
 class RestBoards(generics.ListCreateAPIView):
-    queryset = Board.objects.all()
     serializer_class = BoardsSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_object(self):
+        return get_object_or_404(Board, id=self.request.query_params.get("id"))
+
+    def get_queryset(self):
+        return Board.objects.all()
 
 
 class RestIdeas(generics.ListAPIView):
-    queryset = Ideas.objects.all()
     serializer_class = IdeasSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_object(self):
+        return get_object_or_404(Ideas, pk=self.request.query_params.get("pk"))
+
+    def get_queryset(self):
+        return Ideas.objects.all()
 
 
 class RestIdeaCreate(generics.CreateAPIView):
     serializer_class = IdeaCreateSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 # Board's Views

@@ -1,0 +1,32 @@
+{% extends "website/base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block head_title %}Nosotros{% endblock %}
+
+{% block content %}
+<div class="row">
+            <div class="col-lg-6">
+                <div class="section-title">
+                    <h2>Quienes somos</h2>
+                </div>
+            </div>
+</div>
+
+ <div class='container-fluid mx-auto mt-5 mb-5 col-12'>
+     <div class="row">
+            <div class="col-md-7">
+                <h2>Creemos en la fuerza de talento humano</h2>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            </div>
+            <div class="col-md-5">
+                <div style="width:30%;float:right">
+                        <img src="https://digest.bps.org.uk/wp-content/uploads/2015/08/40c44-thinkstockphotos-80621060.jpg"
+                             style="float: right; width: 450px; height: auto" alt="Team">
+                    </div>
+            </div>
+     </div>
+
+</div>
+
+{% endblock %}

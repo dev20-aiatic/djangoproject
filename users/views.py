@@ -1,12 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from rest_framework import generics, permissions
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from users.forms import RegistrationForm, ProfileUpdateForm
 from users.models import Profile
@@ -25,9 +25,14 @@ def home(request):
 # RestFramework Views
 
 class RestUsersList(generics.ListAPIView):
-    queryset = User.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_object(self):
+        return get_object_or_404(User, id=self.request.query_params.get("id"))
+
+    def get_queryset(self):
+        return User.objects.all()
 
 
 # Custom Auth Views
@@ -62,7 +67,7 @@ class ProfileDetail(DetailView):
         return user
 
     def get_success_url(self):
-        return reverse('Perfil', kwargs={"username": self.request.user.username})
+        return reverse('profile', kwargs={"username": self.request.user.username})
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProfileDetail, self).get_context_data(**kwargs)
@@ -80,7 +85,7 @@ class ProfileEdit(UpdateView):
         return self.request.user
 
     def get_success_url(self):
-        return reverse('Perfil', kwargs={"username": self.request.user.username})
+        return reverse('profile', kwargs={"username": self.request.user.username})
 
     def form_valid(self, form):
         messages.success(self.request, f"¡Perfil modificado correctamente!")

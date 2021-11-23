@@ -1,3 +1,4 @@
+{% load active_link_tags %}
 {% load static %}
 {% load i18n %}
 {% load static %}
@@ -8,18 +9,21 @@
 <html lang="es">
 <head>
 
-{% block head-meta %}
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block head_title %}{% endblock %} | Practicas AIATIC</title>
-{% endblock %}
+    {% block head-meta %}
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block head_title %}{% endblock %} | Practicas AIATIC</title>
+    {% endblock %}
 
-{% block head-css %}
-    <link href="{% static 'css/style.css' %}" rel="stylesheet" media="screen">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet">
-{% endblock %}
+    {% block head-css %}
+        <link href="{% static 'css/style.css' %}" rel="stylesheet" media="screen">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+              crossorigin="anonymous">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css"
+              rel="stylesheet">
+    {% endblock %}
 
 </head>
 <body>
@@ -27,7 +31,7 @@
 <!-- Encabezado -->
 {% if user.is_authenticated %}
     {% block nav %}
-    <header class="header sticky-top">
+        <header class="header sticky-top">
             <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow" role="navigation">
                 <div class="container-fluid">
                     <a href="{% url 'boards' %}" class="navbar-brand">Practica AIATIC 2021-2</a>
@@ -36,26 +40,24 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                        <div class="navbar-nav">
+                        <div class="navbar-nav mr-auto">
+                            <a href="{% url 'dashboard' %}"
+                               class="nav-item nav-link {% active_link 'dashboard' 'active' %}">Inicio</a>
+                            <a href="{% url 'inbox' %}"
+                               class="nav-item nav-link {% active_link 'inbox' 'active' %}">Mensajes</a>
                             <div class="nav-item dropdown">
-                                <a href="{% url 'boards' %}" class="nav-link active dropdown-toggle" data-bs-toggle="dropdown">Notas</a>
+                                {% if '/' in request.path %}
+                                    <a href="{% url 'boards' %}"
+                                       class="nav-link {% active_link 'boards' 'active' %} dropdown-toggle"
+                                       data-bs-toggle="dropdown">Notas</a>
+                                {% endif %}
                                 <div class="dropdown-menu">
                                     <a href="{% url 'boards' %}" class="dropdown-item">Tableros</a>
                                     <a href="{% url 'board-create' %}" class="dropdown-item">Crear tablero</a>
                                 </div>
                             </div>
+
                         </div>
-                        <form class="d-flex">
-                            <div class="input-group">
-                                <label>
-                                    <input type="text" class="form-control" placeholder="Buscar...">
-                                </label>
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button"><i class="fa fa-search fa-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
                         <div class="navbar-nav">
                             <div class="topbar-divider d-none d-sm-block"></div>
                             <ul class="navbar-nav ml-auto">
@@ -63,14 +65,15 @@
                                                                           id="userDropdown" role="button"
                                                                           data-bs-toggle="dropdown" aria-haspopup="true"
                                                                           aria-expanded="false"> <span
-                                        class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.first_name}}{{user.last_name }}</span>
+                                        class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.first_name }} {{ user.last_name }}</span>
                                     <img class="img-profile rounded-circle"
-                                        src="{{ request.user.profile_picture.url }}"
+                                         src="{{ request.user.profile_picture.url }}"
                                          alt="Imagen de perfil"> </a>
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                         aria-labelledby="userDropdown"><a class="dropdown-item" href="{% url 'Perfil' user.username %}"> <i
+                                         aria-labelledby="userDropdown"><a class="dropdown-item"
+                                                                           href="{% url 'profile' user.username %}"> <i
                                             class="fa fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil </a> <a
-                                            class="dropdown-item" href="{% url 'Perfil-Edit' user.username %}"> <i
+                                            class="dropdown-item" href="{% url 'profile-edit' user.username %}"> <i
                                             class="fa fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Editar Perfil </a> <a
                                             class="dropdown-item" href="#"> <i
                                             class="fa fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Registros </a>
@@ -86,77 +89,93 @@
                 </div>
             </nav>
         </header>
+        <div class="container mt-5">
+            {% if not user.profile.account_verified %}
+                <div class="alert alert_info shadow fade show" role="alert">
+                    <button type="button" class="close" data-bs-dismiss="alert"><i class="fa fa-times-circle"
+                                                                                   aria-hidden="true"></i></button>
+                    <strong> Su cuenta aún no ha sido verificada, por favor revise el correo electrónico
+                        recibido</strong>
+                </div>
+            {% endif %}
+        </div>
     {% endblock %}
 {% endif %}
 
 <!-- Cuerpo o contenido -->
 <div class="container mt-5">
-{% block message %}
-    {% if messages %}
-      {% for message in messages %}
-      <div class="alert  alert_{{ message.tags }} alert-dismissible shadow fade show" role="alert">
-       <button type="button" class="close" data-bs-dismiss="alert"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
-       <strong> {{ message | safe }}</strong>
-    </div>
-      {% endfor %}
-    {% endif %}
-{% endblock %}
+    {% block message %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert  alert_{{ message.tags }} alert-dismissible shadow fade show" role="alert">
+                    <button type="button" class="close" data-bs-dismiss="alert"><i class="fa fa-times-circle"
+                                                                                   aria-hidden="true"></i></button>
+                    <strong> {{ message | safe }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endblock %}
 </div>
 
 <div class="container">
     {% block content %}
-     <main>
-     </main>
+        <main>
+        </main>
     {% endblock %}
 </div>
 
 <!-- Pie de página -->
 {% if user.is_authenticated %}
-{% block footer %}
-    <footer>
-        <div class="bottom section-padding">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <div class="copyright">
-                            <p>© <span>2021</span> <a href="#" class="transition">Practicas AIATIC</a> Todos los
-                                derechos reservados.</p>
+    {% block footer %}
+        <footer>
+            <div class="bottom section-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="copyright">
+                                <p>© <span>2021</span> <a href="#" class="transition">Practicas AIATIC</a> Todos los
+                                    derechos reservados.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form method="post" action="{% url 'account_logout' %}">
-                        {% csrf_token %}
-                        {% if redirect_field_value %}
-                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                        {% endif %}
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Cerrar sesión</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>{% trans 'Are you sure you want to sign out?' %}</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                            <button type="submit" class="btn btn-primary">Sí, Cerrar sesión</button>
-                        </div>
-                    </form>
+            <!-- Modal -->
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}"
+                                       value="{{ redirect_field_value }}"/>
+                            {% endif %}
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Cerrar sesión</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>{% trans 'Are you sure you want to sign out?' %}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-primary">Sí, Cerrar sesión</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
-{% endblock %}
+        </footer>
+    {% endblock %}
 {% endif %}
 </body>
 
 {% block head-javascript %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <script src="https://kit.fontawesome.com/1dca54b605.js" crossorigin="anonymous"></script>

@@ -13,11 +13,11 @@
         <div class="row container d-flex justify-content-center">
             <h3> Editar Perfil </h3>
 
-            <form method="POST" action="{% url 'Perfil-Edit' user.username %}" enctype='multipart/form-data'>
+            <form method="POST" action="{% url 'profile-edit' user.username %}" enctype='multipart/form-data'>
             {% csrf_token %}
             {{ form | crispy }}
             <br>
-            <a class="btn btn-secondary " href="{% url 'Perfil' user.username %}">Cancelar</a>
+            <a class="btn btn-secondary " href="{% url 'profile' user.username %}">Cancelar</a>
             <button class="btn btn-primary" type="submit"> Guardar cambios </button>
             </form>
         </div>
