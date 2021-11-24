@@ -1,26 +1,24 @@
-{% extends "account/base.html" %}
+{% extends "dashboard/base.html" %}
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load static %}
-{% block head_title %}Crear Tablero{% endblock %}
+{% block head_title %}{% trans "Eliminar Tablero" %}{% endblock %}
 
 {% block content %}
 
 <div class="page-content page-container" id="page-content">
     <div class="padding">
         <div class="row container d-flex justify-content-center">
-        <div class="card">
-    <h5> Añadir Tablero </h5>
-        <div class="card-body">
-            <form method="POST" action="{%  url 'board-create' %}">
+            <h3> Eliminar tablero: {{ board.name }}</h3>
+
+            <form method="POST" action="">
             {% csrf_token %}
             {{ form | crispy }}
+            <br>
             <a class="btn btn-secondary " href="{% url 'boards' %}">Cancelar</a>
-            <button class="btn btn-primary" type="submit"> Actualizar </button>
+            <button class="btn btn-primary" type="submit"> Eliminar </button>
             </form>
-        </div>
-        </div>
         </div>
     </div>
 </div>

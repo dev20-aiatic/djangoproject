@@ -8,7 +8,7 @@
                     return {
                         term: params.term,
                         page: params.page,
-                        app_label: $element.data('notes-label'),
+                        app_label: $element.data('dashboard-label'),
                         model_name: $element.data('model-name'),
                         field_name: $element.data('field-name')
                     };

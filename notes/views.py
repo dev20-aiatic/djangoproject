@@ -46,7 +46,7 @@ class RestIdeaCreate(generics.CreateAPIView):
 
 class BoardList(ListView):
     model = Board
-    template_name = 'notes/board_list.html'
+    template_name = 'dashboard/board_list.html'
     context_object_name = 'board'
     ordering = ['-updated_at']
 
@@ -62,8 +62,8 @@ class BoardList(ListView):
 class BoardCreate(CreateView):
     model = Board
     form_class = NewBoard
-    template_name = 'notes/board_create.html'
-    success_url = '/notes/crear/'
+    template_name = 'dashboard/board_create.html'
+    success_url = '/dashboard/crear/'
 
     def get_object(self, queryset=None):
         return Board.objects.get(id=self.kwargs.get("id"))
@@ -84,7 +84,7 @@ class BoardCreate(CreateView):
 class BoardDetail(DetailView):
     model = Board
     context_object_name = 'board'
-    template_name = 'notes/board_detail.html'
+    template_name = 'dashboard/board_detail.html'
 
     def get_object(self, queryset=None):
         return Board.objects.get(id=self.kwargs.get("id"))
@@ -98,7 +98,7 @@ class BoardDetail(DetailView):
 
 class BoardUpdate(UpdateView):
     model = Board
-    template_name = 'notes/board_update.html'
+    template_name = 'dashboard/board_update.html'
     fields = ('name', 'status')
     context_object_name = 'board'
     success_url = '/'
@@ -126,7 +126,7 @@ class BoardUpdate(UpdateView):
 class BoardDelete(DeleteView):
     model = Board
     context_object_name = 'board'
-    template_name = 'notes/board_delete.html'
+    template_name = 'dashboard/board_delete.html'
     pk_url_kwarg = 'id'
 
     def get(self, request, *args, **kwargs):
@@ -158,7 +158,7 @@ class IdeaCreate(CreateView):
     model = Ideas
     form_class = NewIdea
     context_object_name = 'ideas'
-    template_name = 'notes/ideas_create.html'
+    template_name = 'dashboard/ideas_create.html'
     success_url = reverse_lazy('boards_id')
     pk = None
 
@@ -203,7 +203,7 @@ class IdeaUpdate(UpdateView):
     model = Ideas
     context_object_name = 'ideas'
     fields = ('title', 'content')
-    template_name = 'notes/ideas_update.html'
+    template_name = 'dashboard/ideas_update.html'
     success_url = reverse_lazy('boards_id')
     pk = None
 
@@ -240,7 +240,7 @@ class IdeaUpdate(UpdateView):
 class IdeaDelete(DeleteView):
     model = Ideas
     fields = ('title', 'content')
-    template_name = 'notes/ideas_delete.html'
+    template_name = 'dashboard/ideas_delete.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

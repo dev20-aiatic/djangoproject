@@ -19,7 +19,7 @@ User = get_user_model()
 
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'dashboard.html')
 
 
 # RestFramework Views

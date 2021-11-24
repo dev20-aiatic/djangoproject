@@ -1,0 +1,32 @@
+{% extends "dashboard/base.html" %}
+{% load crispy_forms_filters %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load static %}
+{% block head_title %}Actualizar Tablero{% endblock %}
+
+{% block content %}
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+        <div class="card">
+    <div class="card-header">
+            <h5 class="card-title"> Editar Mensage {{contact.subject}} </h5>
+    </div>
+        <div class="card-body">
+            <form method="POST" action="{% url 'message-update' contact.id %}">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <a class="btn btn-secondary " href="{% url 'inbox' %}">Cancelar</a>
+            <button class="btn btn-primary" type="submit"> Actualizar </button>
+            </form>
+        </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

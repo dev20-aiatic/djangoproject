@@ -13,7 +13,7 @@ from website.views import Index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/', include('users.urls')),
-    path('app/notas/', include('notes.urls')),
+    path('app/', include('notes.urls')),
     path('', include('website.urls')),
     path('app/', include('allauth.urls')),
     path('token', obtain_auth_token),

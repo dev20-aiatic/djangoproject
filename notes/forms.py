@@ -3,6 +3,7 @@ from .models import Board, Ideas
 
 
 class NewBoard(forms.ModelForm):
+
     class Meta:
         model = Board
         fields = ('name', 'user', 'status')

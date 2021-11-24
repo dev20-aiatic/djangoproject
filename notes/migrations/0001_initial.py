@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
                 ('content', models.TextField(max_length=500, verbose_name='Contenido')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('board', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ideas', to='notes.board', verbose_name='Tablero')),
+                ('board', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ideas', to='dashboard.board', verbose_name='Tablero')),
             ],
             options={
                 'verbose_name': 'Idea',

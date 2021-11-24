@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='ideas',
             name='board',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='notes.board', verbose_name='Tablero'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dashboard.board', verbose_name='Tablero'),
         ),
         migrations.AlterField(
             model_name='ideas',

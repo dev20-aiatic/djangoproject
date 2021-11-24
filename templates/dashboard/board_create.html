@@ -1,9 +1,9 @@
-{% extends "account/base.html" %}
+{% extends "dashboard/base.html" %}
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load static %}
-{% block head_title %}Actualizar idea{% endblock %}
+{% block head_title %}Crear Tablero{% endblock %}
 
 {% block content %}
 
@@ -11,14 +11,12 @@
     <div class="padding">
         <div class="row container d-flex justify-content-center">
         <div class="card">
-    <div class="card-header">
-            <h5 class="card-title"> Actualizar Idea {{idea.name}} </h5>
-    </div>
+    <h5> Añadir Tablero </h5>
         <div class="card-body">
-            <form method="POST" action="{% url 'ideas-update' board.id idea.id %}">
+            <form method="POST" action="{%  url 'board-create' %}">
             {% csrf_token %}
             {{ form | crispy }}
-            <a class="btn btn-secondary " href="{% url 'board' board.id %}">Cancelar</a>
+            <a class="btn btn-secondary " href="{% url 'boards' %}">Cancelar</a>
             <button class="btn btn-primary" type="submit"> Actualizar </button>
             </form>
         </div>
