@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from rest_framework import generics, permissions
 from rest_framework.generics import get_object_or_404
@@ -10,6 +10,18 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from .forms import NewBoard, NewIdea
 from .models import Ideas, Board
+
+
+# Dashboard View
+
+class Dashboard(TemplateView):
+    template_name = 'dashboard.html'
+    context_object_name = 'dashboard'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 # RestFramework Views
 from .serializers import BoardsSerializer, IdeasSerializer, IdeaCreateSerializer

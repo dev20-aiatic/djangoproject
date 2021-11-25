@@ -1,12 +1,23 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
+{% load static %}
 
 {% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
 
 {% block content %}
-    <h1>{% trans "Verify Your E-mail Address" %}</h1>
+    <section class="ftco-section">
+        <div class="container">
+                    <div class="card border-0 shadow rounded-3 my-5">
+                        <div class="login-wrap p-4 b-md-5">
+                            <h3 class="text-center mb-4">{% trans "Verify Your E-mail Address" %}</h3>
 
-    <p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
-
+                            <p>{% blocktrans %}Le hemos enviado un correo electrónico para que lo verifique. Siga el enlace proporcionado para finalizar el proceso de inscripción. Póngase en contacto con nosotros si no lo recibe en unos minutos..{% endblocktrans %}</p>
+                            <div class="row justify-content-center">
+                                        <a class="btn btn-block btn-dark" href="{% url 'profile' user.username %}">De acuerdo</a>
+                                    </div>
+                        </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

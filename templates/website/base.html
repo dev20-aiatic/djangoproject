@@ -91,27 +91,33 @@
         </header>
     {% endblock %}
 
-<!-- Cuerpo o contenido -->
-<div class="container mt-5">
-{% block message %}
-    {% if messages %}
-      {% for message in messages %}
-      <div class="alert  alert_{{ message.tags }} alert-dismissible shadow fade show" role="alert">
-       <button type="button" class="close" data-bs-dismiss="alert"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
-       <strong> {{ message | safe }}</strong>
-    </div>
-      {% endfor %}
-    {% endif %}
-{% endblock %}
-</div>
 
-<div class="container">
+<!-- Alertas  -->
+            <div class="container mt-5">
+                {% block message %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert  alert_{{ message.tags }} alert-dismissible shadow fade show"
+                                 role="alert">
+                                <button type="button" class="close" data-bs-dismiss="alert"><i
+                                        class="fa fa-times-circle"
+                                        aria-hidden="true"></i></button>
+                                <strong> {{ message | safe }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endblock %}
+            </div>
+
+<!-- Cuerpo de la página  -->
+
+<div class="container" style="margin-top: 20px">
+
     {% block content %}
-     <main>
-     </main>
+        <main>
+        </main>
     {% endblock %}
 </div>
-
 <!-- Pie de página -->
 {% block footer %}
     <script>
@@ -123,8 +129,7 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <div class="copyright">
-                            <p>© <span>2021</span> <a href="#" class="transition">Practicas AIATIC</a> Todos los
-                                derechos reservados.</p>
+                            <p><span>© 2021</span> <a class="transition">Practicas AIATIC</a></p>
                         </div>
                     </div>
                 </div>
