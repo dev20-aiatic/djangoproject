@@ -6,11 +6,11 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 
 from users.forms import RegistrationForm, ProfileUpdateForm
 from users.models import Profile
-from users.serializers import ProfileSerializer
+from users.serializers import ProfileSerializer, CreateProfileSerializer
 
 User = get_user_model()
 
@@ -29,6 +29,23 @@ class RestUsersList(generics.ListAPIView):
 
     def get_queryset(self):
         return User.objects.all()
+
+
+class RestCreateUser(generics.CreateAPIView):
+    serializer_class = CreateProfileSerializer
+    permission_classes = (AllowAny,)
+
+
+class RestGetUser(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = (AllowAny,)
+
+
+class RestDeleteUser(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = (AllowAny,)
 
 
 # Custom Auth Views
