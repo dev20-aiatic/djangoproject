@@ -1,16 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import AllowAny
 
 from users.forms import RegistrationForm, ProfileUpdateForm
 from users.models import Profile
-from users.serializers import ProfileSerializer, CreateProfileSerializer
+from users.serializers import ProfileSerializer
 
 User = get_user_model()
 
@@ -20,20 +19,13 @@ User = get_user_model()
 
 # RestFramework Views
 
-class RestUsersList(generics.ListAPIView):
+class RestUsers(generics.ListCreateAPIView):
+    queryset = User.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (AllowAny,)
 
     def get_object(self):
         return get_object_or_404(User, id=self.request.query_params.get("id"))
-
-    def get_queryset(self):
-        return User.objects.all()
-
-
-class RestCreateUser(generics.CreateAPIView):
-    serializer_class = CreateProfileSerializer
-    permission_classes = (AllowAny,)
 
 
 class RestGetUser(generics.RetrieveAPIView):

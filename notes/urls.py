@@ -6,7 +6,7 @@ from .views import *
 
 
 urlpatterns = [
-    path('dashboard/', Dashboard.as_view(), name='dashboard'),
+    path('home/', Dashboard.as_view(), name='dashboard'),
     path('boards/', login_required(BoardList.as_view()), name='boards'),
     path('board/add/', login_required(BoardCreate.as_view()), name='board-create'),
     path('board/<uuid:id>/', login_required(BoardDetail.as_view()), name="board"),

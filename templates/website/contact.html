@@ -5,7 +5,8 @@
 {% block head_title %}Contacto{% endblock %}
 
 {% block content %}
-
+    <div class="container">
+    <br>
     <div class="row">
         <div class="col-lg-6">
             <div class="section-title">
@@ -15,70 +16,70 @@
     </div>
 
     <div id="contactcontainer" class="container mt-xl-5 mb-5">
-    <div class="d-flex justify-content-center pt-5">
-        <h2 class="font-weight-bold">Medios de contacto</h2>
-    </div>
-    <div class="d-flex justify-content-center text-muted">Te responderemos en la menor brevedad</div>
-    <div class="d-md-flex flex-md-row justify-content-center py-4">
-        <div class="d-md-flex flex-md-column contact px-4">
-            <div class="d-md-flex justify-content-center icon py-2"> <span class="fa fa-map-marker"></span> <span class="mobile-info text-dark p-2 pb-3">Carrera 24 # 48-53 - Bucaramanga (COL)</span> </div>
-            <div class="contact-info">Carrera 24 # 48-53 - Bucaramanga (COL)</div>
-        </div>
-        <div class="d-flex flex-column contact px-4">
-            <div class="d-md-flex justify-content-center icon py-2"> <span class="fa fa-phone"></span> <span class="mobile-info text-dark p-2 pb-3">+57 7 6485780</span> </div>
-            <div class="contact-info">+57 7 6485780</div>
-        </div>
-        <div class="d-flex flex-column contact px-4">
-            <div class="d-md-flex justify-content-center icon py-2"> <span class="fa fa-envelope"></span> <span class="mobile-info text-dark p-2 pb-3">contactanos@aiatic-django.com</span> </div>
-            <div class="contact-info">contactanos@aiatic-django.com</div>
-        </div>
-    </div>
         <div class="d-flex justify-content-center pt-5">
-        <h2 class="font-weight-bold">Formulario de contacto</h2>
-    </div>
-    <div class="d-flex justify-content-center text-muted">Te responderemos en la menor brevedad</div>
+            <h2 class="font-weight-bold">Medios de contacto</h2>
+        </div>
+        <div class="d-md-flex flex-md-row justify-content-center py-4">
+            <div class="d-md-flex flex-md-column contact px-4">
+                <div class="d-md-flex justify-content-center icon py-2"><span class="fa fa-map-marker"></span> <span
+                        class="mobile-info text-dark p-2 pb-3">Carrera 24 # 48-53 - Bucaramanga (COL)</span></div>
+                <div class="contact-info">Carrera 24 # 48-53 - Bucaramanga (COL)</div>
+            </div>
+            <div class="d-flex flex-column contact px-4">
+                <div class="d-md-flex justify-content-center icon py-2"><span class="fa fa-phone"></span> <span
+                        class="mobile-info text-dark p-2 pb-3">+57 7 6485780</span></div>
+                <div class="contact-info">+57 7 6485780</div>
+            </div>
+            <div class="d-flex flex-column contact px-4">
+                <div class="d-md-flex justify-content-center icon py-2"><span class="fa fa-envelope"></span> <span
+                        class="mobile-info text-dark p-2 pb-3">contactanos@aiatic-django.com</span></div>
+                <div class="contact-info">contactanos@aiatic-django.com</div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center pt-5">
+            <h2 class="font-weight-bold">Formulario de contacto</h2>
+        </div>
+        <div class="d-flex justify-content-center text-muted">Te responderemos en la menor brevedad</div>
 
-    <div class="d-flex flex-row justify-content-center">
-        <form method="POST" action="{% url 'contact' %}" class="w-xl-50 w-lg-75">
-            <div class="container">
-                <div class="row">
+        <div class="d-flex flex-row justify-content-center">
+            <form method="POST" action="{% url 'contact' %}" class="w-xl-50 w-lg-75">
+                <div class="container">
+                    <div class="row">
                         {% csrf_token %}
                         <div class="col-md-6">
-                        <div class="form-group"> <label for="fullname">Nombre completo</label>
-                            <div class="input-field"> <span class="fa fa-user-o p-2 border-right"></span> {{form.fullname}}</div>
-                        </div>
-                        <div class="form-group"> <label for="email">Correo electrónico de contacto</label>
-                            <div class="input-field"> <span class="fa fa-envelope-o p-2"></span> {{form.email}} </div>
-                        </div>
-                        <div class="form-group"> <label for="subject">Asunto</label>
-                            <div class="input-field"> <span class="fa fa-bullhorn p-2"></span> {{form.subject}} </div>
-                        </div>
+                            <div class="form-group"><label for="fullname">Nombre completo</label>
+                                <div class="input-field"><span
+                                        class="fa fa-user-o p-2 border-right"></span> {{ form.fullname }}</div>
+                            </div>
+                            <div class="form-group"><label for="email">Correo electrónico de contacto</label>
+                                <div class="input-field"><span class="fa fa-envelope-o p-2"></span> {{ form.email }}
+                                </div>
+                            </div>
+                            <div class="form-group"><label for="subject">Asunto</label>
+                                <div class="input-field"><span class="fa fa-bullhorn p-2"></span> {{ form.subject }}
+                                </div>
+                            </div>
                             <div class="form-group">
-                        <button id="contactbutton" class="btn btn-primary" type="submit"> Enviar mensaje</button>
+                                <button id="contactbutton" class="btn btn-primary" type="submit"> Enviar mensaje
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group"><label for="id_message">Mensaje</label>
+                                <div class="input-field bg-light"><textarea required name="message" id="id_message"
+                                                                            cols="60" rows="6" maxlength="500"
+                                                                            class="textarea form-control bg-light"
+                                                                            placeholder="Tengo una duda respecto..."></textarea>
+                                    <span id="count"></span></div>
+                            </div>
+                        </div>
+                        <div class="">
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group"> <label for="id_message">Mensaje</label>
-                            <div class="input-field bg-light"> <textarea required name="message"  id="id_message" cols="60" rows="6" maxlength="500" class="textarea form-control bg-light" placeholder="Tengo una duda respecto..."></textarea>  <span id="count"></span> </div>
-                        </div>
-                    </div>
-                    <div class="">
                 </div>
-            </div>
-           </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-
-document.getElementById('id_message').onkeyup = function () {
-document.getElementById('count').innerHTML = "Carácteres restantes: " + (500 - this.value.length);
-};
-
-});
-    </script>
-
 {% endblock %}
 

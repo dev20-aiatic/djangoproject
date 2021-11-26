@@ -31,56 +31,54 @@
 <!-- Encabezado -->
 {% if user.is_authenticated %}
     {% block nav %}
-        <header class="header sticky-top">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light shadow" role="navigation">
-                <div class="container-fluid">
+        <header>
+            <nav class="navbar  fixed-top navbar-expand-lg navbar-light bg-light shadow" role="navigation">
+                <div  class="container-fluid">
                     <a href="{% url 'dashboard' %}" class="navbar-brand">Practica AIATIC 2021-2</a>
                     <button type="button" class="navbar-toggler" data-bs-toggle="collapse"
                             data-bs-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                        <div class="navbar-nav mr-auto">
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav">
+                        <li class="nav-item">
                             <a href="{% url 'dashboard' %}"
                                class="nav-item nav-link {% active_link 'dashboard' 'active' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{% url 'inbox' %}"
                                class="nav-item nav-link {% active_link 'inbox' 'active' %}">Mensajes</a>
-                            <div class="nav-item dropdown">
-                                {% if '/' in request.path %}
+                        </li>
+                            <li class="nav-item dropdown">
                                     <a href="{% url 'boards' %}"
-                                       class="nav-link {% active_link 'boards' 'active' %} dropdown-toggle"
+                                       class="nav-link {% active_link 'boards' 'active' %} {% if 'board' in request.path %}active{% endif %} dropdown-toggle"
                                        data-bs-toggle="dropdown">Notas</a>
-                                {% endif %}
-                                <div class="dropdown-menu">
+                                <div class="dropdown-menu fade-down shadow animated--grow-in">
                                     <a href="{% url 'boards' %}" class="dropdown-item">Tableros</a>
                                     <a href="{% url 'board-create' %}" class="dropdown-item">Crear tablero</a>
                                 </div>
-                            </div>
-
-                        </div>
-                        <div class="navbar-nav">
-                            <div class="topbar-divider d-none d-sm-block"></div>
-                            <ul class="navbar-nav ml-auto">
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav ms-auto" style="margin-right: 3%">
                                 <li class="nav-item dropdown no-arrow"><a class="nav-link dropdown-toggle" href="#"
                                                                           id="userDropdown" role="button"
                                                                           data-bs-toggle="dropdown" aria-haspopup="true"
                                                                           aria-expanded="false"> <span
                                         class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.first_name }} {{ user.last_name }}</span>
                                     <img class="img-profile rounded-circle"
-                                         src="{{ request.user.profile_picture.url }}"
+                                         src="{{ user.profile_picture.url }}"
                                          alt="Imagen de perfil"> </a>
-                                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                    <div class="dropdown-menu fade-up shadow animated--grow-in"
                                          aria-labelledby="userDropdown"><a class="dropdown-item"
                                                                            href="{% url 'profile' user.username %}"> <i
                                             class="fa fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil </a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                                            <i class="fa fa-sign-out fa-sm fa-fw mr-2 text-gray-400"></i> Cerrar sesión
+                                            <span style="color: red">Cerrar sesión</span>
                                         </a>
                                     </div>
                                 </li>
-                            </ul>
-                        </div>
+                        </ul>
                     </div>
                 </div>
             </nav>
@@ -98,8 +96,11 @@
     {% endblock %}
 {% endif %}
 
+
+<!-- Cuerpo de la página  -->
+
 <!-- Alertas  -->
-            <div class="container mt-5">
+            <div class="container">
                 {% block message %}
                     {% if messages %}
                         {% for message in messages %}
@@ -114,16 +115,11 @@
                     {% endif %}
                 {% endblock %}
             </div>
-
-<!-- Cuerpo de la página  -->
-
-<div class="container" style="margin-top: 20px">
-
     {% block content %}
         <main>
         </main>
     {% endblock %}
-</div>
+
 
 <!-- Pie de página -->
 {% if user.is_authenticated %}

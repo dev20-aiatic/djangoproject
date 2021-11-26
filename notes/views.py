@@ -4,28 +4,15 @@ from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from rest_framework import generics, permissions
+from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-
+from .serializers import BoardsSerializer, IdeasSerializer
 from .forms import NewBoard, NewIdea
 from .models import Ideas, Board
 
 
-# Dashboard View
-
-class Dashboard(TemplateView):
-    template_name = 'dashboard.html'
-    context_object_name = 'dashboard'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-
 # RestFramework Views
-from .serializers import BoardsSerializer, IdeasSerializer, IdeaCreateSerializer
-
 
 class RestBoards(generics.ListCreateAPIView):
     serializer_class = BoardsSerializer
@@ -37,8 +24,11 @@ class RestBoards(generics.ListCreateAPIView):
     def get_queryset(self):
         return Board.objects.all()
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
-class RestIdeas(generics.ListAPIView):
+
+class RestIdeas(generics.ListCreateAPIView):
     serializer_class = IdeasSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
@@ -48,10 +38,19 @@ class RestIdeas(generics.ListAPIView):
     def get_queryset(self):
         return Ideas.objects.all()
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
-class RestIdeaCreate(generics.CreateAPIView):
-    serializer_class = IdeaCreateSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+# Dashboard View
+
+class Dashboard(TemplateView):
+    template_name = 'dashboard.html'
+    context_object_name = 'dashboard'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 
 # Board's Views
@@ -151,7 +150,7 @@ class BoardDelete(DeleteView):
         board_object = Board.objects.get(id=self.kwargs.get('id'))
 
         if board_object.user == self.request.user:
-            messages.error(
+            messages.success(
                 self.request, f"Tablero borrado exitosamente")
             return super(BoardDelete, self).delete(
                 request, *args, **kwargs)
@@ -197,7 +196,7 @@ class IdeaCreate(CreateView):
         else:
             if str(board_object.user) == str(self.request.user):
                 messages.success(
-                    self.request, f"Idea añadida correctamente!")
+                    self.request, f"Idea añadida a su tablero correctamente!")
                 self.pk = self.kwargs.get('pk')
                 return super().form_valid(form)
             else:
@@ -242,7 +241,7 @@ class IdeaUpdate(UpdateView):
             return super().form_valid(form)
         else:
             messages.error(
-                self.request, f"No tienes permiso para modificar este tablero")
+                self.request, f"No tienes permiso para modificar ideas en este tablero")
             return super().form_invalid(form)
 
     def get_success_url(self):
@@ -272,14 +271,14 @@ class IdeaDelete(DeleteView):
         board_object = Board.objects.get(id=self.kwargs.get('id'))
 
         if board_object.user == self.request.user and idea_object.user == self.request.user:
-            messages.error(
+            messages.success(
                 self.request, f"Idea borrada exitosamente")
             return super(IdeaDelete, self).delete(
                 request, *args, **kwargs)
         else:
             messages.error(
                 self.request, f"No tienes permisos para borrar esta idea")
-            return redirect(reverse('ideas-delete', kwargs={'id': self.kwargs.get('id')}))
+            return redirect(reverse('ideas-delete', kwargs={'id': self.kwargs.get('id'), 'pk': self.kwargs.get('pk')}))
 
     def get_success_url(self):
         return reverse('board', kwargs={'id': self.kwargs.get('id')})
