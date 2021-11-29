@@ -20,7 +20,6 @@ urlpatterns = [
     path('create_idea', RestIdeas.as_view(), name="idea-create"),
     path('users', RestUsers.as_view(), name="users"),
     path('list', RestUsers.as_view(), name="users-list"),
-    path('create_users', RestUsers.as_view(), name="users-import"),
     path('user/<int:pk>', RestGetUser.as_view(), name="user-detail"),
     path('create', RestUsers.as_view(), name="user-create"),
     path('delete/<int:pk>', RestDeleteUser.as_view(), name="user-delete"),

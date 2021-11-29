@@ -8,19 +8,36 @@
 
 {% block content %}
 <style>
+.search {
+    top: 6px;
+    left: 10px
+}
+
+.form-control {
+    border: none;
+    padding-left: 32px
+}
+
+.form-control:focus {
+    border: none;
+    box-shadow: none
+}
 
 </style>
    <div class="container mt-5 mb-5">
    <div class="d-flex justify-content-between mb-3"><h4><strong> Bandeja de entrada </strong></h4> </div>
-
     <div class="row">
       <div class="col-md-12">
         <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
-          <table class="table manage-candidates-top mb-0">
+         <div class="d-flex justify-content-between align-items-center">
+        <div class="position-relative"> <span class="position-absolute search"><i class="fa fa-search"></i></span> <input type="search" id="myInput" onkeyup="myFunction()"  data-table="order-table" class="form-control w-100" placeholder="Buscar..."> </div>
+    </div>
+          <table  class="order-table table manage-candidates-top mb-0" data-pagination="true" data-search="true" data-advanced-search="true" data-id-table="advancedTable" data-show-search-clear-button="true">
             <thead>
               <tr>
-                <th class="text-center">Id</th>
-                <th class="text-center">Mensaje</th>
+                <th class="text-center"  data-sortable="true">Id</th>
+                <th class="text-center"  data-sortable="true">Asunto</th>
+                <th class="text-center"  data-sortable="true">Correo electrónico</th>
                 <th class="action text-center">Acciones</th>
               </tr>
             </thead>
@@ -30,15 +47,15 @@
                   <td class="candidate-list-favourite-time text-center">
                   <span class="candidate-list-time order-1">{{ contact.id }}</span>
                   </td>
-                <td class="msg">
-                  <div class="candidate-list-details">
+                <td class="subject">
+                  <div class="candidate-list-details" style="margin-left:50px ">
                     <div class="candidate-list-info">
                       <div class="candidate-list-title">
-                        <h5 class="mb-0"><a href="{% url 'message' contact.id %}">{{ contact.subject}}</a></h5>
+                        <h6 class="mb-0"><a href="{% url 'message' contact.id %}">{{ contact.subject}}</a></h6>
                       </div>
                       <div class="candidate-list-option">
                         <ul class="list-unstyled">
-                          <li><i class="fas fa-user"></i> {{ contact.fullname}} ({{ contact.email }})</li>
+                          <li><i class="fas fa-user"></i> {{ contact.fullname}}</li>
                           <li><i class="far fa-calendar"></i> {{ contact.created_at |date:"d/m/y"}}</li>
                           <li><i class="far fa-clock"></i> {{ contact.created_at |date:"H:i"}}</li>
                         </ul>
@@ -46,7 +63,12 @@
                     </div>
                   </div>
                 </td>
-                <td>
+                                <td>
+                  <ul class="list-unstyled mb-0 d-flex justify-content-center">
+                          <li><i class="fas fa-inbox"></i> {{ contact.email }}</li>
+                  </ul>
+                </td>
+              <td>
                   <ul class="list-unstyled mb-0 d-flex justify-content-center">
                     <li><a href="#" class="text-primary" data-toggle="tooltip" title="" data-original-title="view"><i class="fas fa-reply"></i></a></li>
                     <li><a href="{% url 'message-update' contact.id %}" class="text-info" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fas fa-pencil-alt"></i></a></li>
@@ -57,23 +79,50 @@
             {% endfor %}
             </tbody>
           </table>
-
-            <!--  Pagination -->
-          <div class="text-center mt-3 mt-sm-3">
-            <ul class="pagination justify-content-center mb-0">
-              <li class="page-item disabled"> <span class="page-link">Prev</span> </li>
-              <li class="page-item active" aria-current="page"><span class="page-link">1 </span> <span class="sr-only">(current)</span></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">...</a></li>
-              <li class="page-item"><a class="page-link" href="#">25</a></li>
-              <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
-            </ul>
-          </div>
-            <!-- End Pagination -->
         </div>
       </div>
     </div>
   </div>
+<script>
+(function(document) {
+	'use strict';
+
+	var LightTableFilter = (function(Arr) {
+
+		var _input;
+
+		function _onInputEvent(e) {
+			_input = e.target;
+			var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+			Arr.forEach.call(tables, function(table) {
+				Arr.forEach.call(table.tBodies, function(tbody) {
+					Arr.forEach.call(tbody.rows, _filter);
+				});
+			});
+		}
+
+		function _filter(row) {
+			var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
+			row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+		}
+
+		return {
+			init: function() {
+				var inputs = document.getElementsByClassName('form-control w-100');
+				Arr.forEach.call(inputs, function(input) {
+					input.oninput = _onInputEvent;
+				});
+			}
+		};
+	})(Array.prototype);
+
+	document.addEventListener('readystatechange', function() {
+		if (document.readyState === 'complete') {
+			LightTableFilter.init();
+		}
+	});
+
+})(document);
+</script>
 
 {% endblock %}

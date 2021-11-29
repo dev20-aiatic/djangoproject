@@ -10,7 +10,6 @@
     <div class="container mt-5 mb-5">
         <div class="d-flex justify-content-between mb-3"><h5>Tablero: <strong>{{ board.name }}</strong> </h5>
             <a class="btn btn-primary" href="{% url 'ideas-create' board.id %}" role="button">Añadir Idea</a></div>
-        </div>
         <div class="row g-2">
             {% if not ideas %}
                 <div class="d-flex">
@@ -63,5 +62,5 @@
                 </div>
     {% endfor %}
     </div>
-
+    </div>
 {% endblock %}

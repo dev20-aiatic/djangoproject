@@ -1,10 +1,9 @@
 from django import forms
 
-from .models import Contact
+from .models import Contact, Feedback
 
 
 class ContactForm(forms.ModelForm):
-
     class Meta:
         model = Contact
         fields = ('fullname', 'email', 'subject', 'message')
@@ -19,4 +18,18 @@ class ContactForm(forms.ModelForm):
         return super().form_valid(form)
 
 
+class NewFeedback(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = '__all__'
 
+        widgets = {
+            'contact': forms.HiddenInput(),
+            'user': forms.HiddenInput(),
+            'response': forms.TextInput(
+                attrs={'class': 'message_input', 'placeholder': 'Escribir respuesta', 'type': 'text', 'color': 'none'})
+
+        }
+
+    def form_valid(self, form):
+        return super().form_valid(form)

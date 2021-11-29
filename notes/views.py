@@ -80,7 +80,7 @@ class BoardCreate(CreateView):
         return Board.objects.get(id=self.kwargs.get("id"))
 
     def get_success_url(self):
-        return reverse('boards')
+        return reverse_lazy('boards')
 
     def get_initial(self, *args, **kwargs):
         initial = super().get_initial()
@@ -160,7 +160,7 @@ class BoardDelete(DeleteView):
             return redirect(reverse('board', kwargs={'id': self.kwargs.get('id')}))
 
     def get_success_url(self):
-        return reverse('boards')
+        return reverse_lazy('boards')
 
 
 # Ideas' Views
@@ -207,7 +207,7 @@ class IdeaCreate(CreateView):
                 return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse('board', kwargs={'id': self.kwargs.get("id")})
+        return reverse_lazy('board', kwargs={'id': self.kwargs.get("id")})
 
 
 class IdeaUpdate(UpdateView):
@@ -245,7 +245,7 @@ class IdeaUpdate(UpdateView):
             return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse('board', kwargs={'id': self.kwargs.get("id")})
+        return reverse_lazy('board', kwargs={'id': self.kwargs.get("id")})
 
 
 class IdeaDelete(DeleteView):
@@ -281,4 +281,4 @@ class IdeaDelete(DeleteView):
             return redirect(reverse('ideas-delete', kwargs={'id': self.kwargs.get('id'), 'pk': self.kwargs.get('pk')}))
 
     def get_success_url(self):
-        return reverse('board', kwargs={'id': self.kwargs.get('id')})
+        return reverse_lazy('board', kwargs={'id': self.kwargs.get('id')})

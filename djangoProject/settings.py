@@ -71,6 +71,7 @@ ACCOUNT_FORMS = {
     'signup': 'users.forms.RegistrationForm',
 }
 
+
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_USER_MODEL_EMAIL_FIELD = 'email'

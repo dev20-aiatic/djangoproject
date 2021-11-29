@@ -6,53 +6,59 @@
 
 {% block content %}
 
-<div class="page-content page-container" id="page-content">
-        <div class="row justify-content-center">
-        <div class="card shadow rounded-3 my-5">
- <br>
-<h1>{% trans "Account Connections" %}</h1>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-7">
+                <div class="card border-0 shadow rounded-3 my-5">
+                    <div class="login-wrap p-4 b-md-5">
+                    <h3 class="text-center mb-4">{% trans "Account Connections" %}</h3>
 
-{% if form.accounts %}
-<p>{% blocktrans %}You can sign in to your account using any of the following third party accounts:{% endblocktrans %}</p>
+                    {% if form.accounts %}
+                        <p>Puede acceder a su cuenta utilizando cualquiera de las siguientes cuentas de terceros cuentas de terceros</p>
 
 
-<form method="post" action="{% url 'socialaccount_connections' %}">
-{% csrf_token %}
+                        <form method="post" action="{% url 'socialaccount_connections' %}">
+                            {% csrf_token %}
 
-<fieldset>
-{% if form.non_field_errors %}
-<div id="errorMsg">{{ form.non_field_errors }}</div>
-{% endif %}
+                            <fieldset>
+                                {% if form.non_field_errors %}
+                                    <div id="errorMsg">{{ form.non_field_errors }}</div>
+                                {% endif %}
 
-{% for base_account in form.accounts %}
-{% with base_account.get_provider_account as account %}
-<div>
-<label for="id_account_{{ base_account.id }}">
-<input id="id_account_{{ base_account.id }}" type="checkbox" name="account" value="{{ base_account.id }}"/>
-<span class="socialaccount_provider {{ base_account.provider }} {{ account.get_brand.id }}"> <i class="fab fa-{{account.get_brand.name | lower}} fa-2x"></i> {{account.get_brand.name}}</span>
--- {{ account }}
-</label>
-</div>
-{% endwith %}
-{% endfor %}
+                                {% for base_account in form.accounts %}
+                                    {% with base_account.get_provider_account as account %}
+                                        <div>
+                                            <label for="id_account_{{ base_account.id }}">
+                                                <input id="id_account_{{ base_account.id }}" type="checkbox"
+                                                       name="account" value="{{ base_account.id }}"/>
+                                                <span class="socialaccount_provider {{ base_account.provider }} {{ account.get_brand.id }}"> <i
+                                                        class="fab fa-{{ account.get_brand.name | lower }} fa-2x"></i> {{ account.get_brand.name }}</span>
+                                                -- {{ account }}
+                                            </label>
+                                        </div>
+                                    {% endwith %}
+                                {% endfor %}
 
-<div>
- <br>
-    <a class="btn btn-secondary " href="{% url 'profile' user.username %}">Cancelar</a>
-<button class="btn btn-primary" type="submit">Desvincular</button>
-</div>
+                                <div>
+                                    <br>
+                                    <a class="btn btn-secondary " href="{% url 'profile' user.username %}">Cancelar</a>
+                                    <button class="btn btn-primary" type="submit">Desvincular</button>
+                                </div>
 
-</fieldset>
+                            </fieldset>
 
-</form>
-<br>
-{% else %}
-<p>{% trans 'You currently have no social network accounts connected to this account.' %}</p>
-{% endif %}
+                        </form>
+                        <br>
+                    {% else %}
+                        <p>{% trans 'You currently have no social network accounts connected to this account.' %}</p>
+                    {% endif %}
 
-{% include "socialaccount/snippets/login_extra.html" %}
+                    {% include "socialaccount/snippets/login_extra.html" %}
+                </div>
+                </div>
+                </div>
             </div>
-            </div>
-            </div>
-
+        </div>
+    </section>
 {% endblock %}

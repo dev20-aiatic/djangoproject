@@ -1,13 +1,13 @@
 from django.contrib import messages
 from django.http import Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 
 # Create your views here.
 from django.urls import reverse_lazy, reverse
-from django.views.generic import TemplateView, FormView, DeleteView, DetailView, UpdateView
+from django.views.generic import TemplateView, FormView, DeleteView, UpdateView, CreateView
 from rest_framework import permissions
 
-from website.forms import ContactForm
+from website.forms import ContactForm, NewFeedback
 from website.models import Contact, Feedback
 
 
@@ -42,7 +42,7 @@ class ContactCreate(FormView):
     model = Contact
     template_name = 'website/contact.html'
     form_class = ContactForm
-    success_url = '/contacto/'
+    success_url = reverse_lazy('contact')
 
     def form_valid(self, form):
         form.save()
@@ -50,17 +50,32 @@ class ContactCreate(FormView):
         return super().form_valid(form)
 
 
-class ContactDetail(DetailView):
-    model = Contact
-    context_object_name = 'contact'
-    template_name = 'website/contact_detail.html'
-
-    def get_object(self, queryset=None):
-        return Contact.objects.get(pk=self.kwargs.get("pk"))
+class ContactReply(CreateView):
+    model = Feedback
+    form_class = NewFeedback
+    template_name = 'website/contact_reply.html'
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['feedback'] = Feedback.objects.filter(
+            contact=self.kwargs.get('pk'))
+        context['contact'] = Contact.objects.get(pk=self.kwargs.get('pk'))
         return context
+
+    def get_initial(self, *args, **kwargs):
+        initial = super().get_initial(*args, **kwargs)
+        initial['contact'] = Contact.objects.get(pk=self.kwargs.get('pk'))
+        return initial
+
+    def form_valid(self, form):
+        form.save()
+        messages.success(
+            self.request, f"Mensaje enviado!")
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('message', kwargs={'pk': self.kwargs.get('pk')})
 
 
 class ContactUpdate(UpdateView):
@@ -77,9 +92,10 @@ class ContactUpdate(UpdateView):
         try:
             return super().get(request, *args, **kwargs)
         except Http404:
-            return reverse('inbox')
+            return redirect(reverse('inbox'))
 
     def form_valid(self, form):
+        form.save()
         messages.success(self.request, f"Mensaje modificado exitosamente")
         return super().form_invalid(form)
 

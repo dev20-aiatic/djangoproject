@@ -101,22 +101,7 @@
         </div>
     </header>
 {% endblock %}
-<!-- Alertas  -->
-<div class="container">
-    {% block message %}
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert  alert_{{ message.tags }} alert-dismissible shadow fade show"
-                     role="alert">
-                    <button type="button" class="close" data-bs-dismiss="alert"><i
-                            class="fa fa-times-circle"
-                            aria-hidden="true"></i></button>
-                    <strong> {{ message | safe }}</strong>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endblock %}
-</div>
+
 <!-- Cuerpo de la página  -->
 {% block content %}
     <main>

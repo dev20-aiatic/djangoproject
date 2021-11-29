@@ -1,4 +1,3 @@
-
 {% extends "account/base.html" %}
 
 {% load crispy_forms_tags %}
@@ -11,42 +10,157 @@
 
 {% block content %}
 
- <section class="ftco-section">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-7 col-lg-5">
-                <div class="card border-0 shadow rounded-3 my-5">
-                    <div class="card-body">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card border-0 shadow rounded-3 my-4">
+                    <div class="card-body p-sm-4">
                         <div class="icon d-flex align-items-center justify-content-center">
-                            <img src="{% static 'img/logo.png' %}" style=" width: 30%">
+                            <img src="{% static 'img/logo.png' %}" style=" width: 35%">
                         </div>
-                        <h3 class="text-center mb-4">Iniciar sesión</h3>
-                        <form class="login" method="POST" action="{% url 'account_signup' %}" enctype='multipart/form-data'>
+                        <h3 class="text-center mb-4">Registro de usuario</h3>
+                        <form class="login" method="POST" action="{% url 'account_signup' %}"
+                              enctype='multipart/form-data'>
                             <div class="form-group">
                                 {% csrf_token %}
-                                {{ form | crispy }}
                                 {% if redirect_field_value %}
                                     <input type="hidden" name="{{ redirect_field_name }}"
                                            value="{{ redirect_field_value }}"/>
                                 {% endif %}
+                                {% if form.non_field_errors %}
+                                    {% if form.errors %}
+                                        {% for field in form %}
+                                            {% for error in field.errors %}
+                                                <div class="alert  alert_error alert-dismissible shadow fade show"
+                                                     role="alert">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <strong>{{ error|escape }}</strong>
+                                                        <button type="button" class="close" data-bs-dismiss="alert"><i
+                                                                class="fa fa-times-circle"
+                                                                aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endfor %}
+                                        {% for error in form.non_field_errors %}
+                                            <div class="alert  alert_error shadow fade show"
+                                                 role="alert">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <strong>{{ error|escape }}</strong>
+                                                    <button type="button" class="close" data-bs-dismiss="alert"><i
+                                                            class="fa fa-times-circle"
+                                                            aria-hidden="true"></i></button>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+
+                            <div class="d-flex justify-content-center">
+                                <div class="profile_picture_wrapper">
+                                    <div class="pic-holder">
+                                        <img id="profilePic" class="pic" src="{% static 'img/profile.jpg' %}"
+                                             alt="profile_picture">
+
+                                        <label for="id_profile_picture" class="upload-file-block">
+                                            <div class="text-center">
+                                                <div class="mb-2">
+                                                    <i class="fa fa-camera fa-2x"></i>
+                                                </div>
+                                                Subir <br/> foto de perfil
+                                            </div>
+                                        </label>
+                                        <Input  type="file" name="profile_picture"
+                                               id="id_profile_picture" accept="image/*">
+                                    </div>
+                                </div>
                             </div>
-                        <br>
-                            <div class="d-grid">
-                                <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit"> Registrarse
-                                </button>
+
+                                <div class="form-floating mb-3">
+                                    <input type="email" name="email"
+                                           value="{% if form.email.value %}{{ form.email.value }}{% endif %}"
+                                           autocomplete="email" placeholder="Correo electrónico" maxlength="255"
+                                           class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+                                           required="" id="id_email">
+                                    <label for="floatingInput">Correo electrónico</label>
+                                    {% for error in form.email.errors %}
+                                        <strong style="color: red">{{ error|escape }}</strong>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="username"
+                                           class="textinput textInput form-control {% if form.username.errors %}is-invalid{% endif %}"
+                                           value="{% if form.username.value %}{{ form.username.value }}{% endif %}"
+                                           placeholder="Usuario" maxlength="28" required id="id_username">
+                                    <label for="floatingInput">Usuario</label>
+                                    {% for error in form.username.errors %}
+                                        <strong style="color: red">{{ error|escape }}</strong>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="number" name="id_num"
+                                           class="textinput textInput form-control {% if form.id_num.errors %}is-invalid{% endif %}"
+                                           value="{% if form.id_num.value %}{{ form.id_num.value }}{% endif %}"
+                                           placeholder="Número de identificación" maxlength="12" required id="id_num">
+                                    <label for="floatingInput">Número de identificación</label>
+                                    {% for error in form.id_num.errors %}
+                                        <strong style="color: red">{{ error|escape }}</strong>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="first_name"
+                                           class="textinput textInput form-control {% if form.first_name.errors %}is-invalid{% endif %}"
+                                           value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}"
+                                           placeholder="Nombres" maxlength="80" required id="id_first_name">
+                                    <label for="floatingInput">Nombres</label>
+                                    {% for error in form.first_name.errors %}
+                                        <strong style="color: red">{{ error|escape }}</strong>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="last_name"
+                                           class="textinput textInput form-control {% if form.last_name.errors %}is-invalid{% endif %}"
+                                           value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}"
+                                           placeholder="Apellido" maxlength="80" required id="id_last_name">
+                                    <label for="floatingInput">Apellido</label>
+                                    {% for error in form.last_name.errors %}
+                                        <strong style="color: red">{{ error|escape }}</strong>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="password" name="password" placeholder="Contraseña"
+                                           class="password-input form-control {% if form.password.errors %}is-invalid{% endif %}"
+                                           value="{% if form.password.value %}{{ form.password.value }}{% endif %}"
+                                           required id="id_password" autocomplete=current-password">
+                                    <label for="floatingInput">Contraseña</label>
+                                    {% for error in form.password.errors %}
+                                        <strong style="color: red">{{ error|escape }}</strong>
+                                    {% endfor %}
+                                </div>
+                                <br>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">
+                                        Registrarse
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>
                     <div class="card-footer">
                         <div class="row justify-content-center">
-                        <div class=" text-center mb-2">
-                        ¿Ya tienes una cuenta? <a href="{{ login_url }}">Inicia sesión</a>
-                       </div>
-                    </div>
+                            <div class=" text-center mb-2">
+                                ¿Ya tienes una cuenta? <a href="{{ login_url }}">Inicia sesión</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     {% if user.is_authenticated %}
         {% include "account/snippets/already_logged_in.html" %}

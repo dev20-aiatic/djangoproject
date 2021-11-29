@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
@@ -72,7 +72,7 @@ class ProfileDetail(DetailView):
         return user
 
     def get_success_url(self):
-        return reverse('profile', kwargs={"username": self.request.user.username})
+        return reverse_lazy('profile', kwargs={"username": self.request.user.username})
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProfileDetail, self).get_context_data(**kwargs)
@@ -90,7 +90,7 @@ class ProfileEdit(UpdateView):
         return self.request.user
 
     def get_success_url(self):
-        return reverse('profile', kwargs={"username": self.request.user.username})
+        return reverse_lazy('profile', kwargs={"username": self.request.user.username})
 
     def form_valid(self, form):
         messages.success(self.request, f"¡Perfil modificado correctamente!")

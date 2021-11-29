@@ -33,7 +33,7 @@
     {% block nav %}
         <header>
             <nav class="navbar  fixed-top navbar-expand-lg navbar-light bg-light shadow" role="navigation">
-                <div  class="container-fluid">
+                <div class="container-fluid">
                     <a href="{% url 'dashboard' %}" class="navbar-brand">Practica AIATIC 2021-2</a>
                     <button type="button" class="navbar-toggler" data-bs-toggle="collapse"
                             data-bs-target="#navbarCollapse">
@@ -41,18 +41,18 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a href="{% url 'dashboard' %}"
-                               class="nav-item nav-link {% active_link 'dashboard' 'active' %}">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'inbox' %}"
-                               class="nav-item nav-link {% active_link 'inbox' 'active' %}">Mensajes</a>
-                        </li>
+                            <li class="nav-item">
+                                <a href="{% url 'dashboard' %}"
+                                   class="nav-item nav-link {% active_link 'dashboard' 'active' %}">Inicio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'inbox' %}"
+                                   class="nav-item nav-link {% active_link 'inbox' 'active' %}">Mensajes</a>
+                            </li>
                             <li class="nav-item dropdown">
-                                    <a href="{% url 'boards' %}"
-                                       class="nav-link {% active_link 'boards' 'active' %} {% if 'board' in request.path %}active{% endif %} dropdown-toggle"
-                                       data-bs-toggle="dropdown">Notas</a>
+                                <a href="{% url 'boards' %}"
+                                   class="nav-link {% active_link 'boards' 'active' %} {% if 'board' in request.path %}active{% endif %} dropdown-toggle"
+                                   data-bs-toggle="dropdown">Notas</a>
                                 <div class="dropdown-menu fade-down shadow animated--grow-in">
                                     <a href="{% url 'boards' %}" class="dropdown-item">Tableros</a>
                                     <a href="{% url 'board-create' %}" class="dropdown-item">Crear tablero</a>
@@ -60,65 +60,55 @@
                             </li>
                         </ul>
                         <ul class="nav navbar-nav ms-auto" style="margin-right: 3%">
-                                <li class="nav-item dropdown no-arrow"><a class="nav-link dropdown-toggle" href="#"
-                                                                          id="userDropdown" role="button"
-                                                                          data-bs-toggle="dropdown" aria-haspopup="true"
-                                                                          aria-expanded="false"> <span
-                                        class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.first_name }} {{ user.last_name }}</span>
-                                    <img class="img-profile rounded-circle"
-                                         src="{{ user.profile_picture.url }}"
-                                         alt="Imagen de perfil"> </a>
-                                    <div class="dropdown-menu fade-up shadow animated--grow-in"
-                                         aria-labelledby="userDropdown"><a class="dropdown-item"
-                                                                           href="{% url 'profile' user.username %}"> <i
-                                            class="fa fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">
-                                            <span style="color: red">Cerrar sesión</span>
-                                        </a>
-                                    </div>
-                                </li>
+                            <li class="nav-item dropdown no-arrow"><a class="nav-link dropdown-toggle" href="#"
+                                                                      id="userDropdown" role="button"
+                                                                      data-bs-toggle="dropdown" aria-haspopup="true"
+                                                                      aria-expanded="false"> <span
+                                    class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.first_name }} {{ user.last_name }}</span>
+                                <img class="img-profile rounded-circle"
+                                     src="{{ user.profile_picture.url }}"
+                                     alt="Imagen de perfil"> </a>
+                                <div class="dropdown-menu fade-up shadow animated--grow-in"
+                                     aria-labelledby="userDropdown"><a class="dropdown-item"
+                                                                       href="{% url 'profile' user.username %}"> <i
+                                        class="fa fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Perfil </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                        <span style="color: red">Cerrar sesión</span>
+                                    </a>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </nav>
         </header>
-        <div class="container mt-5">
-            {% if not user.profile.account_verified %}
-                <div class="alert alert_info shadow fade show" role="alert">
-                    <button type="button" class="close" data-bs-dismiss="alert"><i class="fa fa-times-circle"
-                                                                                   aria-hidden="true"></i></button>
-                    <strong> Su cuenta aún no ha sido verificada, por favor revise el correo electrónico
-                        recibido</strong>
-                </div>
-            {% endif %}
-        </div>
     {% endblock %}
 {% endif %}
 
-
-<!-- Cuerpo de la página  -->
-
 <!-- Alertas  -->
-            <div class="container">
-                {% block message %}
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert  alert_{{ message.tags }} alert-dismissible shadow fade show"
-                                 role="alert">
-                                <button type="button" class="close" data-bs-dismiss="alert"><i
-                                        class="fa fa-times-circle"
-                                        aria-hidden="true"></i></button>
-                                <strong> {{ message | safe }}</strong>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                {% endblock %}
-            </div>
-    {% block content %}
-        <main>
-        </main>
+<div class="container mt-5">
+    {% block message %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert  alert_{{ message.tags }} alert-dismissible shadow fade show"
+                     role="alert">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong>{{ message|safe }}</strong>
+                        <button type="button" class="close" data-bs-dismiss="alert"><i
+                                class="fa fa-times-circle"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
     {% endblock %}
+</div>
+<!-- Cuerpo de la página  -->
+{% block content %}
+    <main>
+    </main>
+{% endblock %}
 
 
 <!-- Pie de página -->
@@ -126,15 +116,15 @@
     {% block footer %}
         <footer>
             <div class="bottom section-padding">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <div class="copyright">
-                            <p><span>© 2021</span> <a class="transition">Practicas AIATIC</a></p>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="copyright">
+                                <p><span>© 2021</span> <a class="transition">Practicas AIATIC</a></p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel"

@@ -1,4 +1,5 @@
 {% extends "dashboard/base.html" %}
+{% load crispy_forms_filters %}
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 {% load i18n %}
@@ -7,23 +8,29 @@
 
 {% block content %}
 
-<div class="page-content page-container" id="page-content">
-    <div class="padding">
-        <div class="row container d-flex justify-content-center">
-        <div class="card">
-    <h5> Añadir Tablero </h5>
-        <div class="card-body">
-            <form method="POST" action="{%  url 'board-create' %}">
-            {% csrf_token %}
-            {{ form | crispy }}
-            <a class="btn btn-secondary " href="{% url 'boards' %}">Cancelar</a>
-            <button class="btn btn-primary" type="submit"> Actualizar </button>
-            </form>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-7">
+                    <div class="card border-0 shadow rounded-3 my-5">
+                        <div class="login-wrap p-4 b-md-5">
+                            <div class="card-header">
+                                <h5 class="card-title"> Añadir Tablero </h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="{% url 'board-create' %}">
+                                    {% csrf_token %}
+                                    {{ form | crispy }}
+                                    <a class="btn btn-secondary " href="{% url 'boards' %}">Cancelar</a>
+                                    <button class="btn btn-primary" type="submit"> Actualizar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        </div>
-        </div>
-    </div>
-</div>
+    </section>
 
 
 {% endblock %}

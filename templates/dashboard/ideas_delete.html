@@ -8,21 +8,30 @@
 
 {% block content %}
 
-<div class="page-content page-container" id="page-content">
-    <div class="padding">
-        <div class="row container d-flex justify-content-center">
-            <h3> Eliminar idea: {{ idea.title }}</h3>
-
-            <form method="POST" action="{% url 'ideas-delete' board.id idea.id %}">
-            {% csrf_token %}
-            {{ form | crispy }}
-            <br>
-            <a class="btn btn-secondary " href="{% url 'board' board.id %}">Cancelar</a>
-            <button class="btn btn-primary" type="submit"> Eliminar </button>
-            </form>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-7">
+                    <div class="card border-0 shadow rounded-3 my-5">
+                        <div class="login-wrap p-4 b-md-5">
+                            <div class="card-header">
+                                <h5 class="card-title"> Eliminar idea: {{ idea.title }}</h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="{% url 'ideas-delete' board.id idea.id %}">
+                                    {% csrf_token %}
+                                    {{ form | crispy }}
+                                    <p> ¿Estás seguro de querer eliminar esta idea?</p>
+                                    <br>
+                                    <a class="btn btn-secondary " href="{% url 'board' board.id %}">Cancelar</a>
+                                    <button class="btn btn-primary" type="submit"> Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-
+    </section>
 
 {% endblock %}

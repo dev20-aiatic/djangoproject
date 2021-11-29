@@ -14,7 +14,24 @@
             </div>
         </div>
     </div>
-
+<!-- Alertas  -->
+<div class="container mt-5">
+    {% block message %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert  alert_{{ message.tags }} alert-dismissible shadow fade show"
+                     role="alert">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong>{{ message|safe }}</strong>
+                        <button type="button" class="close" data-bs-dismiss="alert"><i
+                                class="fa fa-times-circle"
+                                aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endblock %}
+</div>
     <div id="contactcontainer" class="container mt-xl-5 mb-5">
         <div class="d-flex justify-content-center pt-5">
             <h2 class="font-weight-bold">Medios de contacto</h2>
@@ -59,10 +76,6 @@
                                 <div class="input-field"><span class="fa fa-bullhorn p-2"></span> {{ form.subject }}
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <button id="contactbutton" class="btn btn-primary" type="submit"> Enviar mensaje
-                                </button>
-                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group"><label for="id_message">Mensaje</label>
@@ -73,8 +86,9 @@
                                     <span id="count"></span></div>
                             </div>
                         </div>
-                        <div class="">
-                        </div>
+                        <div class="align-left">
+                            <button id="loadingbutton" class="btn btn-primary" type="submit" > <i id="icon" class=""></i> Enviar mensaje </button>
+                            </div>
                     </div>
                 </div>
             </form>
@@ -83,3 +97,9 @@
 </div>
 {% endblock %}
 
+        {% if messages %}
+            {% for message in messages %}
+                <div class="snackbar shadow show" role="alert"><i class="fa fa-times-circle text-{{ message.tags }}"></i> ¡Mensaje enviado exitosamente! </div>
+                </div>
+            {% endfor %}
+        {% endif %}

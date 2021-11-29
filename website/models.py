@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 
+from djangoProject import settings
+
 
 class Contact(models.Model):
     fullname = models.CharField(max_length=120, verbose_name="Nombre completo")
@@ -22,11 +24,12 @@ class Contact(models.Model):
 class Feedback(models.Model):
     response = models.TextField(verbose_name="Respuesta")
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.PROTECT, verbose_name="Usuario")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-updated_at']
+        ordering = ['updated_at']
         verbose_name_plural = "Respuestas"
         verbose_name = "Respuesta"
 

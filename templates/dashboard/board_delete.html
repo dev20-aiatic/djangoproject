@@ -1,4 +1,5 @@
 {% extends "dashboard/base.html" %}
+{% load crispy_forms_filters %}
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 {% load i18n %}
@@ -7,21 +8,29 @@
 
 {% block content %}
 
-<div class="page-content page-container" id="page-content">
-    <div class="padding">
-        <div class="row container d-flex justify-content-center">
-            <h3> Eliminar tablero: {{ board.name }}</h3>
-
-            <form method="POST" action="">
-            {% csrf_token %}
-            {{ form | crispy }}
-            <br>
-            <a class="btn btn-secondary " href="{% url 'boards' %}">Cancelar</a>
-            <button class="btn btn-primary" type="submit"> Eliminar </button>
-            </form>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-7">
+                    <div class="card border-0 shadow rounded-3 my-5">
+                        <div class="login-wrap p-4 b-md-5">
+                            <div class="card-header">
+                                <h5 class="card-title"> Eliminar tablero: <strong>{{ board.name }}</strong></h5>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" action="">
+                                    {% csrf_token %}
+                                    {{ form | crispy }}
+                                    <p>¿Está seguro de que desea eliminar este tablero?</p>
+                                    <a class="btn btn-secondary " href="{% url 'boards' %}">Cancelar</a>
+                                    <button class="btn btn-primary" type="submit"> Sí, eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-
+    </section>
 
 {% endblock %}

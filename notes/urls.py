@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 
-from website.views import ReceivedView, ContactDelete, ContactDetail, ContactUpdate
+from website.views import ReceivedView, ContactDelete, ContactReply, ContactUpdate
 from .views import *
 
 
@@ -16,7 +16,7 @@ urlpatterns = [
     path('board/<uuid:id>/<int:pk>/edit-idea', login_required(IdeaUpdate.as_view()), name="ideas-update"),
     path('notas/<uuid:id>/<int:pk>/delete-idea/', login_required(IdeaDelete.as_view()), name="ideas-delete"),
     path('inbox/', login_required(ReceivedView.as_view()), name="inbox"),
-    path('inbox/<int:pk>/', login_required(ContactDetail.as_view()), name="message"),
+    path('inbox/<int:pk>/', login_required(ContactReply.as_view()), name="message"),
     path('inbox/<int:pk>/delete', ContactDelete.as_view(), name="message-delete"),
     path('inbox/<int:pk>/edit', ContactUpdate.as_view(), name="message-update"),
 
